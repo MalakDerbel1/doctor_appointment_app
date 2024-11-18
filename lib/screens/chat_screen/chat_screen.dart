@@ -82,20 +82,144 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-class ChatDetailScreen extends StatelessWidget {
+class ChatDetailScreen extends StatefulWidget {
   final String chatName;
+
   ChatDetailScreen(this.chatName);
+
+  @override
+  _ChatDetailScreenState createState() => _ChatDetailScreenState();
+}
+
+class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  final TextEditingController _messageController = TextEditingController();
+  final List<Map<String, dynamic>> messages = [
+    {
+      "text": "Hello! How can I help you?",
+      "isSentByUser": false,
+      "time": "10:00 AM"
+    },
+    {
+      "text": "I have a question about my appointment.",
+      "isSentByUser": true,
+      "time": "10:02 AM"
+    },
+    {
+      "text": "Sure, let me check that for you.",
+      "isSentByUser": false,
+      "time": "10:03 AM"
+    },
+  ];
+
+  void _sendMessage() {
+    if (_messageController.text.trim().isNotEmpty) {
+      final newMessage = {
+        "text": _messageController.text.trim(),
+        "isSentByUser": true,
+        "time": TimeOfDay.now().format(context),
+      };
+
+      setState(() {
+        messages.add(newMessage);
+      });
+
+      // Clear the text field after sending
+      _messageController.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(chatName),
+        title: Text(widget.chatName),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
-        child: Text(
-            'Chat with $chatName'), // Placeholder for the chat conversation
+      body: Column(
+        children: [
+          // Messages List
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(10.0),
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                final message = messages[index];
+                final isUser = message['isSentByUser'];
+                return Align(
+                  alignment:
+                      isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5.0),
+                    padding: const EdgeInsets.all(10.0),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isUser ? Colors.blueAccent : Colors.grey[300],
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(10.0),
+                        topRight: const Radius.circular(10.0),
+                        bottomLeft:
+                            isUser ? const Radius.circular(10.0) : Radius.zero,
+                        bottomRight:
+                            isUser ? Radius.zero : const Radius.circular(10.0),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          message['text'],
+                          style: TextStyle(
+                            color: isUser ? Colors.white : Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          message['time'],
+                          style: TextStyle(
+                            color: isUser ? Colors.white70 : Colors.black54,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // Message Input Bar
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            color: Colors.grey[200],
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                      hintText: "Type a message",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 15.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: _sendMessage,
+                  icon: Icon(Icons.send, color: Colors.blueAccent),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
