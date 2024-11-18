@@ -15,7 +15,6 @@ class LoginScreen extends StatelessWidget {
 
   // Create a GlobalKey for the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -117,10 +116,13 @@ class LoginScreen extends StatelessWidget {
                       // If the form is valid, navigate to the BottomNavBar screen
                       Navigator.push(
                         context,
-                         MaterialPageRoute(builder: (context) => BottomNavBar(
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text),),
-                                
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavBar(
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            email: emailController.text,
+                          ),
+                        ),
                       );
                     }
                   },
