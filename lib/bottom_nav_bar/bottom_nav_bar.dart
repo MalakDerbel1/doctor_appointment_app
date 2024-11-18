@@ -1,6 +1,7 @@
 import 'package:doctor_appointment_app/screens/calendar_screen/calendar_screen.dart';
 import 'package:doctor_appointment_app/screens/chat_screen/chat_screen.dart';
 import 'package:doctor_appointment_app/screens/home_screen/home_screen.dart';
+import 'package:doctor_appointment_app/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:doctor_appointment_app/screens/profile/profile_screen.dart';
 import 'package:doctor_appointment_app/screens/settings/settings_screen.dart';
 import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
@@ -130,7 +131,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               title: const Text('Logout'),
               onTap: () {
                 // Navigate to Login Screen
-                Navigator.pushReplacementNamed(context, '/login');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen(),
+                    ));
               },
             ),
           ],

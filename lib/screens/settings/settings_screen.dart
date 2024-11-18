@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: customTextWidget(
-            text: "Book an Appointment",
+            text: "Settings",
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: Colors.white),
