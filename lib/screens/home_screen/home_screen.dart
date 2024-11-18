@@ -10,140 +10,47 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+  });
+
+  final String email;
   final String firstName;
   final String lastName;
-
-  const HomeScreen({super.key,
-    required this.firstName,
-    required this.lastName,});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Track the selected category index
-  int selectedIndex = 0;
+  // Define a filtered list of doctors based on search
+  List<DoctorModel> filteredDoctors = [];
 
+  // Sample notifications data
+  final List<String> notifications = [
+    "New appointment booked for tomorrow.",
+    "You have a new message from Dr. Smith.",
+    "Your appointment with Dr. Johnson is confirmed.",
+    "Your prescription is ready for pickup.",
+    "A new health tip is available for you."
+  ];
+  // Sample tips data
+  final List<String> tips = [
+    "Drink at least 8 glasses of water a day.",
+    "Exercise regularly to stay fit.",
+    "Take breaks and avoid sitting for long periods.",
+    "Get enough sleep to recharge your body.",
+    "Eat a balanced diet with plenty of fruits and vegetables."
+  ];
+  TextEditingController searchController = TextEditingController();
   // Track the search field value
   String searchQuery = '';
 
-  // Define a filtered list of doctors based on search
-  List<DoctorModel> filteredDoctors = [];
-  TextEditingController searchController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    // Filter doctors based on the search query
-    filteredDoctors = doctorList.where((doctor) {
-      final nameLower = doctor.doctorName.toLowerCase();
-      final specialityLower = doctor.speciality.toLowerCase();
-      final searchLower = searchQuery.toLowerCase();
-      return nameLower.contains(searchLower) || specialityLower.contains(searchLower);
-    }).toList();
-  print("searchQuery: ${searchQuery.isEmpty}");
-    return Scaffold(
-      backgroundColor: Colors.white,
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Search Field
-            Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                image: const DecorationImage(
-                  image: AssetImage(ImageConstant.homeTexture),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    mediumSpaceh,
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 24,
-                          backgroundColor: Colors.white,
-                          backgroundImage: AssetImage("assets/userImage.png"),
-                        ),
-                        smallSpacew,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            customTextWidget(
-                              text: "Hello, Welcome 🎉",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                            ),
-                                                   customTextWidget(
-                            // Afficher le prénom et le nom
-                            text: "${widget.lastName} ${widget.firstName}",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-
-                          ],
-                        ),
-                        const Spacer(),
-                        Image.asset(
-                          ImageConstant.notificationIcon,
-                          height: 40,
-                        ),
-                      ],
-                    ),
-                    // Updated Search Field
-                    TransparentSearchField(
-                      controller: searchController,
-                      onSearch: (value) {
-
-                        setState(() {
-                          searchQuery = value;
-                        });
-                      },
-                      // hintText: "Search doctor by name or speciality...",
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            mediumSpaceh,
-
-            // Show the normal UI if search query is empty
-            searchQuery.isEmpty
-                ? buildNormalUI()
-                : filteredDoctors.isNotEmpty
-                ? buildFilteredDoctorList()
-                : Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  customTextWidget(
-                    text: "No doctor found.",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.red,
-                  ),
-                  mediumSpaceh,
-                  Lottie.asset('assets/searchJson.json' , height: MediaQuery.of(context).size.height * 0.4 , width: MediaQuery.of(context).size.width * 0.5),
-
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Track the selected category index
+  int selectedIndex = 0;
 
   // Build the normal UI when no search is performed
   Widget buildNormalUI() {
@@ -180,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: categories[index],
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
-                          color: selectedIndex == index ? Colors.white : lightPurpleColor,
+                          color: selectedIndex == index
+                              ? Colors.white
+                              : lightPurpleColor,
                         ),
                       ),
                     ),
@@ -202,8 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              customTextWidget(text: "Favorite Doctor", fontSize: 16, fontWeight: FontWeight.w500),
-              customTextWidget(text: "See all", fontSize: 12, fontWeight: FontWeight.w400 ,color: primaryColor),
+              customTextWidget(
+                  text: "Favorite Doctor",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+              customTextWidget(
+                  text: "See all",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: primaryColor),
             ],
           ),
         ),
@@ -214,20 +130,25 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 200, // Constrain the height for the list
             child: // Replace ListView.builder with a Row or Wrap
 
-
-            ListView.builder(
+                ListView.builder(
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorDetailsScreen(doctorModel: favoriteDoctors[index]),));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DoctorDetailsScreen(
+                                doctorModel: favoriteDoctors[index]),
+                          ));
                     },
                     child: Container(
-                      // padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: MediaQuery.of(context).size.height *0.25,
-                        width: MediaQuery.of(context).size.width *0.5,// Add horizontal padding for spacing
+                        // padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width *
+                            0.5, // Add horizontal padding for spacing
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -240,15 +161,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage(favoriteDoctors[index].doctorImage),
+                                    image: AssetImage(
+                                        favoriteDoctors[index].doctorImage),
                                     fit: BoxFit.cover,
                                   ),
-                                  borderRadius: const BorderRadius.only(topRight: Radius.circular(10) , topLeft: Radius.circular(10))                              ),
+                                  borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      topLeft: Radius.circular(10))),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10 , top: 10),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   customTextWidget(
                                     text: favoriteDoctors[index].doctorName,
@@ -264,7 +190,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         size: 16,
                                       ),
                                       customTextWidget(
-                                        text: favoriteDoctors[index].rating.toString(),
+                                        text: favoriteDoctors[index]
+                                            .rating
+                                            .toString(),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
@@ -283,12 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.black,
                               ),
                             ),
-
                           ],
-                        )
-                    ),
+                        )),
                   ),
-
                 );
               },
               itemCount: favoriteDoctors.length,
@@ -302,14 +227,21 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              customTextWidget(text: "Top Doctor", fontSize: 16, fontWeight: FontWeight.w500),
-              customTextWidget(text: "See all", fontSize: 12, fontWeight: FontWeight.w400 ,color: primaryColor),
+              customTextWidget(
+                  text: "Top Doctor",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+              customTextWidget(
+                  text: "See all",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: primaryColor),
             ],
           ),
         ),
         // mediumSpaceh,
         Padding(
-          padding: const EdgeInsets.only(left: 10 , right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: ListView.separated(
             separatorBuilder: (context, index) => smallSpaceh,
             shrinkWrap: true,
@@ -322,13 +254,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DoctorDetailsScreen(doctorModel: doctorList[index]),
+                        builder: (context) =>
+                            DoctorDetailsScreen(doctorModel: doctorList[index]),
                       ),
                     );
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.5, // Add horizontal padding for spacing
+                    width: MediaQuery.of(context).size.width *
+                        0.5, // Add horizontal padding for spacing
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -343,7 +277,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: MediaQuery.of(context).size.height * 0.12,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(doctorList[index].doctorImage),
+                                image:
+                                    AssetImage(doctorList[index].doctorImage),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -356,9 +291,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 10),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns the text and icon
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween, // Aligns the text and icon
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       customTextWidget(
@@ -372,10 +309,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 24,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
-                                            image: AssetImage(ImageConstant.moreIcon),
+                                            image: AssetImage(
+                                                ImageConstant.moreIcon),
                                             fit: BoxFit.cover,
                                           ),
-
                                         ),
                                       ), // Positioned to the right
                                     ],
@@ -384,7 +321,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: customTextWidget(
-                                    text: "${doctorList[index].speciality} | ${doctorList[index].clinicName}",
+                                    text:
+                                        "${doctorList[index].speciality} | ${doctorList[index].clinicName}",
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                     color: lighterColor,
@@ -400,13 +338,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         size: 16,
                                       ),
                                       customTextWidget(
-                                        text: doctorList[index].rating.toString(),
+                                        text:
+                                            doctorList[index].rating.toString(),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
                                       customTextWidget(
-                                        text: "(${doctorList[index].totalReviews.toString()} reviews)",
+                                        text:
+                                            "(${doctorList[index].totalReviews.toString()} reviews)",
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         color: lighterColor,
@@ -423,8 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-              )
-              ;
+              );
             },
             itemCount: doctorList.length,
             scrollDirection: Axis.vertical,
@@ -455,7 +394,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DoctorDetailsScreen(doctorModel: doctor),
+                          builder: (context) =>
+                              DoctorDetailsScreen(doctorModel: doctor),
                         ),
                       );
                     },
@@ -477,7 +417,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10)),
                             ),
                           ),
                           Padding(
@@ -531,7 +472,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DoctorDetailsScreen(doctorModel: doctor),
+                      builder: (context) =>
+                          DoctorDetailsScreen(doctorModel: doctor),
                     ),
                   );
                 },
@@ -553,7 +495,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             fit: BoxFit.cover,
                           ),
                           borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10)),
                         ),
                       ),
                       Padding(
@@ -582,6 +525,196 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+// Function to show tips list
+  void _showTips() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Health Tips"),
+          content: Container(
+            height: 200,
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: tips.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(tips[index]),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// Function to show notification list
+  void _showNotifications() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Notifications"),
+          content: Container(
+            height: 200,
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(notifications[index]),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Filter doctors based on the search query
+    filteredDoctors = doctorList.where((doctor) {
+      final nameLower = doctor.doctorName.toLowerCase();
+      final specialityLower = doctor.speciality.toLowerCase();
+      final searchLower = searchQuery.toLowerCase();
+      return nameLower.contains(searchLower) ||
+          specialityLower.contains(searchLower);
+    }).toList();
+    print("searchQuery: ${searchQuery.isEmpty}");
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Search Field
+            Container(
+              height: MediaQuery.of(context).size.height * 0.35,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: primaryColor,
+                image: const DecorationImage(
+                  image: AssetImage(ImageConstant.homeTexture),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    mediumSpaceh,
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 24,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage("assets/userImage.png"),
+                        ),
+                        smallSpacew,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            customTextWidget(
+                              text: "Hello, Welcome 🎉",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                            customTextWidget(
+                              // Afficher le prénom et le nom
+                              text: "${widget.lastName} ${widget.firstName}",
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        // Notification Icon
+                        IconButton(
+                          onPressed:
+                              _showNotifications, // Show notifications when clicked
+                          icon: const Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                        ),
+                        // Lamp Icon for Tips
+                        IconButton(
+                          onPressed: _showTips, // Show tips when clicked
+                          icon: const Icon(
+                            Icons.lightbulb_outline,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Updated Search Field
+                    TransparentSearchField(
+                      controller: searchController,
+                      onSearch: (value) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                      },
+                      // hintText: "Search doctor by name or speciality...",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            mediumSpaceh,
+
+            // Show the normal UI if search query is empty
+            searchQuery.isEmpty
+                ? buildNormalUI()
+                : filteredDoctors.isNotEmpty
+                    ? buildFilteredDoctorList()
+                    : Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            customTextWidget(
+                              text: "No doctor found.",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                            ),
+                            mediumSpaceh,
+                            Lottie.asset('assets/searchJson.json',
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.5),
+                          ],
+                        ),
+                      ),
+          ],
         ),
       ),
     );
