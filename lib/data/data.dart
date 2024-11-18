@@ -4,7 +4,6 @@ import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
 List<String> categories = <String>[
   "🔥 All",
   "👨‍⚕️ Généraliste",
-  "🤒 Généraliste",
   "🤧 Dermatologie",
   "🤢 Pédiatrie",
   "🦷 Dentiste",

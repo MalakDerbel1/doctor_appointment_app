@@ -8,7 +8,7 @@ import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
-  final DoctorModel doctorModel;
+ final DoctorModel doctorModel;
   const DoctorDetailsScreen({super.key, required this.doctorModel});
 
   @override
@@ -16,6 +16,114 @@ class DoctorDetailsScreen extends StatefulWidget {
 }
 
 class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _durationController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+
+
+void _selectDate(BuildContext context) async {
+    DateTime selectedDate = DateTime.now(); // Date actuelle
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2101),
+    );
+    
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _dateController.text = "${selectedDate.toLocal()}".split(' ')[0]; // Mettre à jour le champ de texte avec la date choisie
+      });
+    }
+  }
+
+   void _selectTime(BuildContext context) async {
+    TimeOfDay selectedTime = TimeOfDay.now(); // Heure actuelle
+
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        _timeController.text = selectedTime.format(context); // Mettre à jour le champ de texte avec l'heure choisie
+      });
+    }
+  }
+  // Function to show reservation dialog
+  void _showReservationDialog() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Réservation'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Champ Date
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: AbsorbPointer(
+                  child: TextField(
+                    controller: _dateController, // Utilisation du controller pour le champ de date
+                    decoration: const InputDecoration(labelText: 'Date'),
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ),
+              ),
+              
+              // Champ Heure
+              GestureDetector(
+                onTap: () => _selectTime(context),
+                child: AbsorbPointer(
+                  child: TextField(
+                    controller: _timeController, // Utilisation du controller pour le champ d'heure
+                    decoration: const InputDecoration(labelText: 'Hour'),
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Vous pouvez ajouter la logique de réservation ici
+                Navigator.of(context).pop();
+                // Afficher une confirmation ou effectuer une action
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Appointment made')),
+                );
+              },
+              child: const Text('Book'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+   void _callVoice() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CallScreen(
+          doctorModel: widget.doctorModel,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +147,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w700),
                 const Spacer(),
-              ]),
-            ),
+              ])),
             Container(
                 // padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: MediaQuery.of(context).size.height * 0.45,
@@ -204,31 +311,47 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                 ),
               ),
             ),
-          ],
+             Padding(
+  padding: const EdgeInsets.all(20),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      ElevatedButton.icon(
+        onPressed: _callVoice,
+        icon: const Icon(Icons.call, color: Colors.white),  // Icône pour le bouton "Call Voice"
+        label: const Text('Call Voice'),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+           backgroundColor: primaryColor, // Couleur du texte
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          shape: RoundedRectangleBorder(  // Coins arrondis
+            borderRadius: BorderRadius.circular(30),
+          ),
+          elevation: 5,  // Ombre portée pour donner du relief
+          shadowColor: Colors.black.withOpacity(0.25),  // Ombre légère
         ),
       ),
-      bottomNavigationBar: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CallScreen(
-                        doctorModel: widget.doctorModel,
-                      )));
-        },
-        child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: AssetImage(ImageConstant.callButton),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            )),
+      ElevatedButton.icon(
+        onPressed: _showReservationDialog,
+        icon: Icon(Icons.calendar_today, color: blackishColor),  // Icône pour le bouton "Reserve"
+        label: const Text('Reserve'),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: blackishColor, 
+          backgroundColor: lightPurpleColor,  // Couleur du texte
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          shape: RoundedRectangleBorder(  // Coins arrondis
+            borderRadius: BorderRadius.circular(30),
+          ),
+          elevation: 5,  // Ombre portée pour donner du relief
+          shadowColor: Colors.black.withOpacity(0.25),  // Ombre légère
+        ),
+      ),
+    ],
+  ),
+),
+
+          ],
+        ),
       ),
     );
   }
