@@ -3,12 +3,12 @@ import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
 
 List<String> categories = <String>[
   "🔥 All",
-  "🤒 Fever️",
-  "🤧 Cough",
-  "🤢 Nauseated",
-  "🦷 Dental",
-  "👁️ Eye",
-  "👨‍⚕️ General"
+  "👨‍⚕️ Généraliste",
+  "🤒 Généraliste",
+  "🤧 Dermatologie",
+  "🤢 Pédiatrie",
+  "🦷 Dentiste",
+  "👁️ Ophtalmologie",
 ];
 
 List<DoctorModel> doctorList = [
