@@ -1,6 +1,6 @@
 import 'dart:ui'; // Required for BackdropFilter
-import 'package:doctor_appointment_app/domain/doctor_model.dart';
-import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
+import 'package:DocEase/domain/doctor_model.dart';
+import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class CallScreen extends StatefulWidget {

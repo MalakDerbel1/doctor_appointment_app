@@ -1,10 +1,10 @@
-import 'package:doctor_appointment_app/screens/calendar_screen/calendar_screen.dart';
-import 'package:doctor_appointment_app/screens/chat_screen/chat_screen.dart';
-import 'package:doctor_appointment_app/screens/home_screen/home_screen.dart';
-import 'package:doctor_appointment_app/screens/onboarding_screen/onboarding_screen.dart';
-import 'package:doctor_appointment_app/screens/profile/profile_screen.dart';
-import 'package:doctor_appointment_app/screens/settings/settings_screen.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
+import 'package:DocEase/screens/calendar_screen/calendar_screen.dart';
+import 'package:DocEase/screens/chat_screen/chat_screen.dart';
+import 'package:DocEase/screens/home_screen/home_screen.dart';
+import 'package:DocEase/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:DocEase/screens/profile/profile_screen.dart';
+import 'package:DocEase/screens/settings/settings_screen.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -32,6 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
+    // Initialize pages with data
     _pages = [
       HomeScreen(
         firstName: widget.firstName,
@@ -40,7 +41,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       ClientAppointmentCalendar(),
       ChatScreen(),
-      const ProfileScreen(),
+      ProfileScreen(
+        firstName: widget.firstName,
+        lastName: widget.lastName,
+        email: widget.email,
+      ),
     ];
   }
 
@@ -48,7 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Doctor Appointment"),
+        title: const Text("DocEase"),
         backgroundColor: primaryColor,
       ),
       drawer: Drawer(
@@ -71,7 +76,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 color: primaryColor,
               ),
             ),
-
             // Drawer Items
             ListTile(
               leading: const Icon(Icons.home),
@@ -108,9 +112,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
               title: const Text('Profile'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 3;
+                  _selectedIndex = 3; // Change the selected index for profile
                 });
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
               },
             ),
             ListTile(
@@ -142,45 +146,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
       ),
       body: _pages[_selectedIndex],
-      bottomNavigationBar: Stack(
-        children: [
-          Container(
-            height: 80,
-            color: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.house),
+            label: 'Home',
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavBarItem(FontAwesomeIcons.house, 0),
-                  _buildNavBarItem(FontAwesomeIcons.calendar, 1),
-                  _buildNavBarItem(FontAwesomeIcons.message, 2),
-                  _buildNavBarItem(Icons.person, 3),
-                ],
-              ),
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.calendar),
+            label: 'Appointments',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.message),
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildNavBarItem(IconData icon, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      child: Icon(
-        icon,
-        size: 24,
-        color: _selectedIndex == index ? primaryColor : lighterColor,
+        selectedItemColor: primaryColor,
+        unselectedItemColor: lighterColor,
+        type: BottomNavigationBarType.fixed, // Keeps all items visible
       ),
     );
   }
