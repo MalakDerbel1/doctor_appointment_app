@@ -7,7 +7,7 @@ class DoctorModel {
   final double rating;
   final String experience;
   final int patients;
-  final bool isFav;
+  late final bool isFav;
   final String doctorImage; // Use String to represent the image constant
 
   DoctorModel({

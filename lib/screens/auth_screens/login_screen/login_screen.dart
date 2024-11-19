@@ -6,16 +6,13 @@ import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
 import 'package:doctor_appointment_app/utils/widgets/button_widget.dart';
 import 'package:doctor_appointment_app/utils/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-
   // Create a GlobalKey for the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

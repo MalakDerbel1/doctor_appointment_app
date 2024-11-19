@@ -40,7 +40,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       ClientAppointmentCalendar(),
       ChatScreen(),
-      const ProfileScreen(),
+      ProfileScreen(
+      ),
     ];
   }
 
