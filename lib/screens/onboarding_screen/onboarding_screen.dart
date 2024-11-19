@@ -1,9 +1,9 @@
-import 'package:doctor_appointment_app/screens/auth_screens/login_screen/login_screen.dart';
-import 'package:doctor_appointment_app/utils/constant/app_constant.dart';
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
-import 'package:doctor_appointment_app/utils/widgets/button_widget.dart';
-import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
+import 'package:DocEase/screens/auth_screens/login_screen/login_screen.dart';
+import 'package:DocEase/utils/constant/app_constant.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/widgets/button_widget.dart';
+import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {

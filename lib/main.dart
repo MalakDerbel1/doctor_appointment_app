@@ -1,7 +1,7 @@
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
-import 'package:doctor_appointment_app/screens/onboarding_screen/onboarding_screen.dart';
-import 'package:doctor_appointment_app/screens/splash_screen/splash_screen.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
+import 'package:DocEase/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:DocEase/screens/splash_screen/splash_screen.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 
 void main() {

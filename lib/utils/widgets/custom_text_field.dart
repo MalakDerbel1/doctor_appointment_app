@@ -1,4 +1,4 @@
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {

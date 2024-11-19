@@ -1,13 +1,20 @@
-import 'package:doctor_appointment_app/screens/onboarding_screen/onboarding_screen.dart';
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
-import 'package:doctor_appointment_app/utils/widgets/button_widget.dart';
-import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
+import 'package:DocEase/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/widgets/button_widget.dart';
+import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
+  final String firstName;
+  final String lastName;
+  final String email;
+  const ProfileScreen({
+    Key? key,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+  }) : super(key: key);
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -19,10 +26,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: customTextWidget(
-            text: "Profile",
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white),
+          text: "Profile",
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
         backgroundColor: primaryColor,
         automaticallyImplyLeading: false,
       ),
@@ -40,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             // Client Name
             Text(
-              'John Doe',
+              '${widget.firstName} ${widget.lastName}', // Use passed firstName and lastName
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -49,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 8),
             // Email
             Text(
-              'john.doe@example.com',
+              widget.email, // Display the passed email
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -104,18 +112,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: customButtonWidget(
-                  text: "Logout",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OnboardingScreen(),
-                        ));
-                  },
-                  fontColor: Colors.white,
-                  buttonColor: primaryColor,
-                  buttonHeight: 50,
-                  fontWeight: FontWeight.w600),
+                text: "Logout",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen(),
+                    ),
+                  );
+                },
+                fontColor: Colors.white,
+                buttonColor: primaryColor,
+                buttonHeight: 50,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

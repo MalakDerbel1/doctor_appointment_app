@@ -1,14 +1,14 @@
-import 'package:doctor_appointment_app/domain/doctor_model.dart';
-import 'package:doctor_appointment_app/screens/call_screen/call_screen.dart';
-import 'package:doctor_appointment_app/screens/doctor_detail_screen/icon_widget.dart';
-import 'package:doctor_appointment_app/utils/constant/app_constant.dart';
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
-import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
+import 'package:DocEase/domain/doctor_model.dart';
+import 'package:DocEase/screens/call_screen/call_screen.dart';
+import 'package:DocEase/screens/doctor_detail_screen/icon_widget.dart';
+import 'package:DocEase/utils/constant/app_constant.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
- final DoctorModel doctorModel;
+  final DoctorModel doctorModel;
   const DoctorDetailsScreen({super.key, required this.doctorModel});
 
   @override
@@ -20,8 +20,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
 
-
-void _selectDate(BuildContext context) async {
+  void _selectDate(BuildContext context) async {
     DateTime selectedDate = DateTime.now(); // Date actuelle
 
     final DateTime? picked = await showDatePicker(
@@ -30,30 +29,33 @@ void _selectDate(BuildContext context) async {
       firstDate: DateTime(2020),
       lastDate: DateTime(2101),
     );
-    
+
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        _dateController.text = "${selectedDate.toLocal()}".split(' ')[0]; // Mettre à jour le champ de texte avec la date choisie
+        _dateController.text = "${selectedDate.toLocal()}".split(
+            ' ')[0]; // Mettre à jour le champ de texte avec la date choisie
       });
     }
   }
 
-   void _selectTime(BuildContext context) async {
+  void _selectTime(BuildContext context) async {
     TimeOfDay selectedTime = TimeOfDay.now(); // Heure actuelle
 
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
     );
-    
+
     if (picked != null && picked != selectedTime) {
       setState(() {
         selectedTime = picked;
-        _timeController.text = selectedTime.format(context); // Mettre à jour le champ de texte avec l'heure choisie
+        _timeController.text = selectedTime.format(
+            context); // Mettre à jour le champ de texte avec l'heure choisie
       });
     }
   }
+
   // Function to show reservation dialog
   void _showReservationDialog() async {
     showDialog(
@@ -69,19 +71,21 @@ void _selectDate(BuildContext context) async {
                 onTap: () => _selectDate(context),
                 child: AbsorbPointer(
                   child: TextField(
-                    controller: _dateController, // Utilisation du controller pour le champ de date
+                    controller:
+                        _dateController, // Utilisation du controller pour le champ de date
                     decoration: const InputDecoration(labelText: 'Date'),
                     keyboardType: TextInputType.datetime,
                   ),
                 ),
               ),
-              
+
               // Champ Heure
               GestureDetector(
                 onTap: () => _selectTime(context),
                 child: AbsorbPointer(
                   child: TextField(
-                    controller: _timeController, // Utilisation du controller pour le champ d'heure
+                    controller:
+                        _timeController, // Utilisation du controller pour le champ d'heure
                     decoration: const InputDecoration(labelText: 'Hour'),
                     keyboardType: TextInputType.datetime,
                   ),
@@ -113,7 +117,7 @@ void _selectDate(BuildContext context) async {
     );
   }
 
-   void _callVoice() {
+  void _callVoice() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -133,21 +137,21 @@ void _selectDate(BuildContext context) async {
           children: [
             mediumSpaceh,
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                ),
-                const Spacer(),
-                customTextWidget(
-                    text: "My Appointments",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700),
-                const Spacer(),
-              ])),
+                padding: const EdgeInsets.all(20),
+                child: Row(children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios),
+                  ),
+                  const Spacer(),
+                  customTextWidget(
+                      text: "My Appointments",
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
+                  const Spacer(),
+                ])),
             Container(
                 // padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: MediaQuery.of(context).size.height * 0.45,
@@ -311,45 +315,53 @@ void _selectDate(BuildContext context) async {
                 ),
               ),
             ),
-             Padding(
-  padding: const EdgeInsets.all(20),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      ElevatedButton.icon(
-        onPressed: _callVoice,
-        icon: const Icon(Icons.call, color: Colors.white),  // Icône pour le bouton "Call Voice"
-        label: const Text('Call Voice'),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-           backgroundColor: primaryColor, // Couleur du texte
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-          shape: RoundedRectangleBorder(  // Coins arrondis
-            borderRadius: BorderRadius.circular(30),
-          ),
-          elevation: 5,  // Ombre portée pour donner du relief
-          shadowColor: Colors.black.withOpacity(0.25),  // Ombre légère
-        ),
-      ),
-      ElevatedButton.icon(
-        onPressed: _showReservationDialog,
-        icon: Icon(Icons.calendar_today, color: blackishColor),  // Icône pour le bouton "Reserve"
-        label: const Text('Reserve'),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: blackishColor, 
-          backgroundColor: lightPurpleColor,  // Couleur du texte
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-          shape: RoundedRectangleBorder(  // Coins arrondis
-            borderRadius: BorderRadius.circular(30),
-          ),
-          elevation: 5,  // Ombre portée pour donner du relief
-          shadowColor: Colors.black.withOpacity(0.25),  // Ombre légère
-        ),
-      ),
-    ],
-  ),
-),
-
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _callVoice,
+                    icon: const Icon(Icons.call,
+                        color:
+                            Colors.white), // Icône pour le bouton "Call Voice"
+                    label: const Text('Call Voice'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: primaryColor, // Couleur du texte
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 25),
+                      shape: RoundedRectangleBorder(
+                        // Coins arrondis
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 5, // Ombre portée pour donner du relief
+                      shadowColor:
+                          Colors.black.withOpacity(0.25), // Ombre légère
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: _showReservationDialog,
+                    icon: Icon(Icons.calendar_today,
+                        color: blackishColor), // Icône pour le bouton "Reserve"
+                    label: const Text('Reserve'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: blackishColor,
+                      backgroundColor: lightPurpleColor, // Couleur du texte
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 25),
+                      shape: RoundedRectangleBorder(
+                        // Coins arrondis
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 5, // Ombre portée pour donner du relief
+                      shadowColor:
+                          Colors.black.withOpacity(0.25), // Ombre légère
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -1,24 +1,24 @@
-import 'package:doctor_appointment_app/domain/doctor_model.dart';
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
+import 'package:DocEase/domain/doctor_model.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
 
 List<String> categories = <String>[
- "🔥 All",
- "👨‍⚕️ Généraliste",
-"🤧 Dermatologie",
- "🤢 Pédiatrie",
- "🦷 Dentiste",
-  "👁️ Ophtalmologie",
+  "🔥 All",
+  "👨‍⚕️ Generalist",
+  "💉 Dermatologie",
+  "👶 Pediatrics",
+  "🦷 Dentist",
+  "👁️ Ophthalmology",
 ];
 
 List<DoctorModel> doctorList = [
-  // Généraliste
+  // Generalist
   DoctorModel(
     doctorName: "Dr. karim Sahnoun",
     speciality: "Generalist",
     clinicName: "Complex médical",
     totalReviews: 36,
     about:
-        "Dr Karim Sahnoun est un médecin généraliste dont le cabinet, numéro 34, se trouve au Complexe Médical.",
+        "Dr Karim Sahnoun est un médecin Generalist dont le cabinet, numéro 34, se trouve au Complexe Médical.",
     rating: 4.9,
     experience: "7+ years",
     patients: 120,
@@ -31,7 +31,7 @@ List<DoctorModel> doctorList = [
     clinicName: "immeuble syphax médical",
     totalReviews: 150,
     about:
-        "Dr. Radhia Neifar exerce en tant que médecin généraliste, avec un cabinet situé a l'immeuble syphax médical a route gremda km 2.",
+        "Dr. Radhia Neifar exerce en tant que médecin Generalist, avec un cabinet situé a l'immeuble syphax médical a route gremda km 2.",
     rating: 4.8,
     experience: "10+ years",
     patients: 200,
@@ -46,7 +46,7 @@ List<DoctorModel> doctorList = [
     clinicName: "Care Center",
     totalReviews: 245,
     about:
-        " Dr Amel Jarraya exerce en tant que médecin généraliste dans un cabinet situé à résidzncz El Habib ,  route de soukra, km 3.",
+        " Dr Amel Jarraya exerce en tant que médecin Generalist dans un cabinet situé à résidzncz El Habib ,  route de soukra, km 3.",
     rating: 4.7,
     experience: "8+ years",
     patients: 180,
@@ -55,14 +55,13 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage2, // Update with the actual path or constant
   ),
 
-  
   DoctorModel(
     doctorName: "Dr. Semi Elloumi",
     speciality: "Generalist",
     clinicName: "immeuble Ezaphyr",
     totalReviews: 320,
     about:
-        "Dr. Semi Elloumi exerce en tant que médecin généraliste dans un cabinet situé à l'immeuble Ezaphyr ,  route de Manzel chaker, km 5.5",
+        "Dr. Semi Elloumi exerce en tant que médecin Generalist dans un cabinet situé à l'immeuble Ezaphyr ,  route de Manzel chaker, km 5.5",
     rating: 4.9,
     experience: "12+ years",
     patients: 300,
@@ -77,7 +76,7 @@ List<DoctorModel> doctorList = [
     clinicName: "immeuble ElNour",
     totalReviews: 320,
     about:
-        "Dr. khalil  Masmoudi exerce en tant que médecin généraliste dans un cabinet situé à l'immeuble ElNour,  route de tunis , km 5.5",
+        "Dr. khalil  Masmoudi exerce en tant que médecin Generalist dans un cabinet situé à l'immeuble ElNour,  route de tunis , km 5.5",
     rating: 4.9,
     experience: "12+ years",
     patients: 300,
@@ -85,15 +84,14 @@ List<DoctorModel> doctorList = [
     doctorImage:
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
-
 
   DoctorModel(
     doctorName: "Dr. Anis  Chaari",
     speciality: "Generalist",
-    clinicName: "immeuble Bosten3", // modifier par adresse et ajouter ville 
+    clinicName: "immeuble Bosten3", // modifier par adresse et ajouter ville
     totalReviews: 320,
     about:
-        "Dr. Anis  Chaari exerce en tant que médecin généraliste dans un cabinet situé à l'immeuble Bosten3,  route de Gabes , km 2.5",
+        "Dr. Anis  Chaari exerce en tant que médecin Generalist dans un cabinet situé à l'immeuble Bosten3,  route de Gabes , km 2.5",
     rating: 4.9,
     experience: "12+ years",
     patients: 300,
@@ -102,13 +100,13 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
 
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Sahir  Sallemi",
     speciality: "Generalist",
-    clinicName: "Complexe medicale ", // modifier par adresse et ajouter ville 
+    clinicName: "Complexe medicale ", // modifier par adresse et ajouter ville
     totalReviews: 320,
     about:
-        "Dr. Sahir Sallemi  exerce en tant que médecin généraliste dans un cabinet situé à Complexe medicale, Sfax",
+        "Dr. Sahir Sallemi  exerce en tant que médecin Generalist dans un cabinet situé à Complexe medicale, Sfax",
     rating: 4.9,
     experience: "12+ years",
     patients: 300,
@@ -116,8 +114,6 @@ List<DoctorModel> doctorList = [
     doctorImage:
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
-
-
 
   // Dermatologie
   DoctorModel(
@@ -165,7 +161,6 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage4, // Update with the actual path or constant
   ),
 
-
   DoctorModel(
     doctorName: "Dr. Mourad Ennouri",
     speciality: "Dermatologie",
@@ -196,9 +191,7 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage4, // Update with the actual path or constant
   ),
 
-
-
-  // Pédiatrie
+  // Pediatrics
   DoctorModel(
     doctorName: "Dr. Mohamed Ali Mekki",
     speciality: "Pediatrics",
@@ -213,7 +206,7 @@ List<DoctorModel> doctorList = [
     doctorImage:
         ImageConstant.doctorImage4, // Update with the actual path or constant
   ),
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Hichem Fekki",
     speciality: "Pediatrics",
     clinicName: "immeuble Fleur de lys",
@@ -227,7 +220,7 @@ List<DoctorModel> doctorList = [
     doctorImage:
         ImageConstant.doctorImage4, // Update with the actual path or constant
   ),
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Adel Zouari",
     speciality: "Pediatrics",
     clinicName: "complexe ibn ennafis",
@@ -242,14 +235,14 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage4, // Update with the actual path or constant
   ),
 
-
-  // Dentiste
+  // Dentist
   DoctorModel(
     doctorName: "Dr. Rami Boujelben",
     speciality: "Dentist",
     clinicName: "Kassas Marrakech",
     totalReviews: 280,
-    about: "Dr. Rami Boujelben is a dentist with a clinic  located in Kassas Marrakech on Route Lafran, km 1.",
+    about:
+        "Dr. Rami Boujelben is a dentist with a clinic  located in Kassas Marrakech on Route Lafran, km 1.",
     rating: 4.8,
     experience: "11+ years",
     patients: 220,
@@ -258,13 +251,13 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
 
-
   DoctorModel(
     doctorName: "Dr. Walid Jallouli",
     speciality: "Dentist",
     clinicName: "Immeuble Salima",
     totalReviews: 280,
-    about: "Dr. Walid Jallouli is a dentist with a clinic  located in Salima building on  Route El ain , km 4,5.",
+    about:
+        "Dr. Walid Jallouli is a dentist with a clinic  located in Salima building on  Route El ain , km 4,5.",
     rating: 4.8,
     experience: "11+ years",
     patients: 220,
@@ -278,7 +271,8 @@ List<DoctorModel> doctorList = [
     speciality: "Dentist",
     clinicName: "Immeuble Teniour centre",
     totalReviews: 280,
-    about: "Dr. Hajer Kammoun is a dentist with a clinic  located in Teniour centre building on Route Tanyour, km 2.",
+    about:
+        "Dr. Hajer Kammoun is a dentist with a clinic  located in Teniour centre building on Route Tanyour, km 2.",
     rating: 4.8,
     experience: "11+ years",
     patients: 220,
@@ -286,14 +280,14 @@ List<DoctorModel> doctorList = [
     doctorImage:
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
-
 
   DoctorModel(
     doctorName: "Dr. Emna Bradai ",
     speciality: "Dentist",
     clinicName: "Residence Al Narjess",
     totalReviews: 280,
-    about: "Dr. Emna Bradai is a dentist with a clinic located in the Al Narjess Residence on Route Lafran, km 5.5.",
+    about:
+        "Dr. Emna Bradai is a dentist with a clinic located in the Al Narjess Residence on Route Lafran, km 5.5.",
     rating: 4.8,
     experience: "11+ years",
     patients: 220,
@@ -302,7 +296,7 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage3, // Update with the actual path or constant
   ),
 
-  // Ophtalmologie
+  // Ophthalmology
   DoctorModel(
     doctorName: "Dr.Maissa Sakka Derbel",
     speciality: "Ophthalmology",
@@ -318,16 +312,13 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage5, // Update with the actual path or constant
   ),
 
-
-
-
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Mourad Zahaf",
     speciality: "Ophthalmology",
     clinicName: "Immeuble ibn rochd",
     totalReviews: 350,
     about:
-        "Dr. Hajer Kammoun is an ophthalmologist with a clinic located in the ibn rochd building  Bloc A ,fax.",
+        "Dr. Hajer Kammoun is an ophthalmologist with a clinic located in the ibn rochd building  Bloc A ,sfax.",
     rating: 4.7,
     experience: "6+ years",
     patients: 150,
@@ -336,7 +327,7 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage5, // Update with the actual path or constant
   ),
 
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Mohamed Mlik",
     speciality: "Ophthalmology",
     clinicName: "Immeuble Echifa",
@@ -351,7 +342,7 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage5, // Update with the actual path or constant
   ),
 
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Wassim Mhiri ",
     speciality: "Ophthalmology",
     clinicName: "Immeuble Ihsen",
@@ -366,9 +357,9 @@ List<DoctorModel> doctorList = [
         ImageConstant.doctorImage5, // Update with the actual path or constant
   ),
 
-   DoctorModel(
+  DoctorModel(
     doctorName: "Dr. Amine Ennouri",
-    speciality: "     ",
+    speciality: "Ophthalmology",
     clinicName: "Complexe Medical city",
     totalReviews: 350,
     about:

@@ -1,9 +1,9 @@
-import 'package:doctor_appointment_app/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:doctor_appointment_app/screens/home_screen/home_screen.dart';
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
-import 'package:doctor_appointment_app/utils/widgets/button_widget.dart';
-import 'package:doctor_appointment_app/utils/widgets/custom_text_field.dart';
+import 'package:DocEase/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:DocEase/screens/home_screen/home_screen.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/widgets/button_widget.dart';
+import 'package:DocEase/utils/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatelessWidget {

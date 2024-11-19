@@ -1,6 +1,6 @@
-import 'package:doctor_appointment_app/utils/constant/image_constant.dart';
-import 'package:doctor_appointment_app/utils/themes/color_themes.dart';
-import 'package:doctor_appointment_app/utils/widgets/text_widget.dart';
+import 'package:DocEase/utils/constant/image_constant.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
+import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
