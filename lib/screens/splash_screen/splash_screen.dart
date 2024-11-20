@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               customTextWidget(
-                  text: "MEDCONNECT",
+                  text: "DocEase",
                   color: Colors.blue,
                   fontSize: 28,
                   fontWeight: FontWeight.w900,

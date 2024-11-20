@@ -1,3 +1,4 @@
+import 'package:DocEase/screens/Mes_informations/mes_informations.dart';
 import 'package:DocEase/screens/calendar_screen/calendar_screen.dart';
 import 'package:DocEase/screens/chat_screen/chat_screen.dart';
 import 'package:DocEase/screens/home_screen/home_screen.dart';
@@ -12,12 +13,16 @@ class BottomNavBar extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
+  final String? appointmentDate; // Nullable appointment date
+  final String? appointmentTime; // Nullable appointment time
 
   const BottomNavBar({
     Key? key,
     required this.firstName,
     required this.lastName,
     required this.email,
+    this.appointmentDate,
+    this.appointmentTime,
   }) : super(key: key);
 
   @override
@@ -32,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    // Initialize pages with data
+    // Initialize pages with passed data
     _pages = [
       HomeScreen(
         firstName: widget.firstName,
@@ -42,9 +47,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ClientAppointmentCalendar(),
       ChatScreen(),
       ProfileScreen(
-        firstName: widget.firstName,
-        lastName: widget.lastName,
-        email: widget.email,
+        firstName: widget.firstName, // Pass firstName
+        lastName: widget.lastName, // Pass lastName
+        email: widget.email, // Pass email
+        patientInfo: {
+          'Gender':
+              'Male', // Example gender, you should get this from the form or database
+          'Height': '175', // Example height
+          'Weight': '70', // Example weight
+          'Allergies': 'Peanuts', // Example allergy
+          'Medical History': 'None', // Example medical history
+          'Lifestyle': 'Active', // Example lifestyle
+          'Date of Visit':
+              widget.appointmentDate ?? 'Not provided', // Example date
+        },
       ),
     ];
   }
@@ -119,6 +135,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             ListTile(
               leading: const Icon(Icons.settings),
+              title: const Text('Mes informations'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PatientInformationForm(
+                      firstName: widget.firstName, // Pass firstName
+                      lastName: widget.lastName, // Pass lastName
+                      email: widget.email,
+                    ),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
                 Navigator.push(
@@ -145,7 +177,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      body: _pages[_selectedIndex], // Display the selected screen
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
