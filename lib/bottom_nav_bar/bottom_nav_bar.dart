@@ -52,12 +52,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
         email: widget.email, // Pass email
         patientInfo: {
           'Gender':
-              'Male', // Example gender, you should get this from the form or database
-          'Height': '175', // Example height
-          'Weight': '70', // Example weight
-          'Allergies': 'Peanuts', // Example allergy
-          'Medical History': 'None', // Example medical history
-          'Lifestyle': 'Active', // Example lifestyle
+              'Enter your information', // Example gender, you should get this from the form or database
+          'Height': 'Enter your information', // Example height
+          'Weight': 'Enter your information', // Example weight
+          'Allergies': 'Enter your information', // Example allergy
+          'Medical History':
+              'Enter your information', // Example medical history
+          'Lifestyle': 'Enter your information', // Example lifestyle
           'Date of Visit':
               widget.appointmentDate ?? 'Not provided', // Example date
         },
@@ -134,7 +135,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.info),
               title: const Text('Mes informations'),
               onTap: () {
                 Navigator.push(

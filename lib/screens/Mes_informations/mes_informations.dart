@@ -34,6 +34,11 @@ class _PatientInformationFormState extends State<PatientInformationForm> {
   // To store selected date and time
   DateTime? _selectedDate;
 
+  // Health conditions
+  final List<String> _healthConditions = ['Yes', 'No'];
+  String? _hasDiabetes;
+  String? _hasHeartProblems;
+
   // Allergy options
   List<String> _allergyOptions = ['Peanuts', 'Shellfish', 'Penicillin', 'None'];
   String? _selectedAllergy;
@@ -54,8 +59,6 @@ class _PatientInformationFormState extends State<PatientInformationForm> {
   }
 
   // Function to submit the form
-  // PatientInformationForm.dart
-
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       final patientInfo = {
@@ -68,6 +71,8 @@ class _PatientInformationFormState extends State<PatientInformationForm> {
         'Date of Visit': _selectedDate != null
             ? "${_selectedDate!.toLocal()}".split(' ')[0]
             : 'Not Selected',
+        'Has Diabetes': _hasDiabetes ?? 'Not Selected',
+        'Has Heart Problems': _hasHeartProblems ?? 'Not Selected',
       };
 
       // Navigate to ProfileScreen and pass the form data
@@ -89,7 +94,7 @@ class _PatientInformationFormState extends State<PatientInformationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patient Information'),
+        title: const Text('Patient Information'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -97,121 +102,263 @@ class _PatientInformationFormState extends State<PatientInformationForm> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Gender Radio Buttons
-                ListTile(
-                  title: Text('Gender'),
-                  subtitle: Row(
-                    children: [
-                      Radio<String>(
-                        value: 'Male',
-                        groupValue: _selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGender = value;
-                          });
-                        },
-                      ),
-                      Text('Male'),
-                      Radio<String>(
-                        value: 'Female',
-                        groupValue: _selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGender = value;
-                          });
-                        },
-                      ),
-                      Text('Female'),
-                      Radio<String>(
-                        value: 'Other',
-                        groupValue: _selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGender = value;
-                          });
-                        },
-                      ),
-                      Text('Other'),
-                    ],
+                const Text(
+                  'Personal Information',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Card(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        // Gender Radio Buttons
+                        Row(
+                          children: [
+                            const Icon(Icons.person),
+                            const SizedBox(width: 10),
+                            const Text('Gender'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: RadioListTile<String>(
+                                value: 'Male',
+                                groupValue: _selectedGender,
+                                title: const Text('Male'),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: RadioListTile<String>(
+                                value: 'Female',
+                                groupValue: _selectedGender,
+                                title: const Text('Female'),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: RadioListTile<String>(
+                                value: 'Other',
+                                groupValue: _selectedGender,
+                                title: const Text('Other'),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                // Height Field
-                TextFormField(
-                  controller: _heightController,
-                  decoration: InputDecoration(labelText: 'Height (in cm)'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter height';
-                    }
-                    return null;
+                _buildHealthConditionRadio(
+                  icon: Icons.warning_amber_rounded,
+                  label: 'Diabetes',
+                  value: _hasDiabetes,
+                  onChanged: (value) {
+                    setState(() {
+                      _hasDiabetes = value;
+                    });
                   },
+                ),
+                // Heart Problems Radio Buttons
+                _buildHealthConditionRadio(
+                  icon: Icons.favorite,
+                  label: 'Heart Problems',
+                  value: _hasHeartProblems,
+                  onChanged: (value) {
+                    setState(() {
+                      _hasHeartProblems = value;
+                    });
+                  },
+                ),
+                // Height Field
+                _buildInputField(
+                  icon: Icons.height,
+                  label: 'Height (in cm)',
+                  controller: _heightController,
+                  keyboardType: TextInputType.number,
                 ),
                 // Weight Field
-                TextFormField(
+                _buildInputField(
+                  icon: Icons.monitor_weight,
+                  label: 'Weight (in kg)',
                   controller: _weightController,
-                  decoration: InputDecoration(labelText: 'Weight (in kg)'),
                   keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter weight';
-                    }
-                    return null;
-                  },
                 ),
                 // Allergies Dropdown
-                DropdownButtonFormField<String>(
+                _buildDropdown(
+                  icon: Icons.medical_services,
+                  label: 'Allergies',
                   value: _selectedAllergy,
-                  decoration: InputDecoration(labelText: 'Allergies'),
-                  items: _allergyOptions
-                      .map((allergy) => DropdownMenuItem<String>(
-                            value: allergy,
-                            child: Text(allergy),
-                          ))
-                      .toList(),
+                  items: _allergyOptions,
                   onChanged: (value) {
                     setState(() {
                       _selectedAllergy = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select an allergy';
-                    }
-                    return null;
-                  },
                 ),
                 // Medical History Field
-                TextFormField(
+                _buildInputField(
+                  icon: Icons.history_edu,
+                  label: 'Medical History',
                   controller: _medicalHistoryController,
-                  decoration: InputDecoration(labelText: 'Medical History'),
+                  maxLines: 3,
                 ),
                 // Lifestyle Habits Field
-                TextFormField(
+                _buildInputField(
+                  icon: Icons.health_and_safety,
+                  label: 'Lifestyle Habits',
                   controller: _lifestyleController,
-                  decoration: InputDecoration(labelText: 'Lifestyle Habits'),
+                  maxLines: 3,
                 ),
                 // Date of Visit Picker
                 ListTile(
+                  leading: const Icon(Icons.calendar_today),
                   title: Text(
                     _selectedDate == null
                         ? 'Select Date of Visit'
                         : "Selected Date: ${_selectedDate!.toLocal()}"
                             .split(' ')[0],
                   ),
-                  trailing: Icon(Icons.calendar_today),
                   onTap: () => _selectDate(context),
                 ),
-                SizedBox(height: 20),
+                // Diabetes Radio Buttons
+
+                const SizedBox(height: 20),
                 // Submit Button
-                ElevatedButton(
-                  onPressed: _submitForm,
-                  child: Text('Submit Information'),
+                Center(
+                  child: ElevatedButton.icon(
+                    onPressed: _submitForm,
+                    icon: const Icon(Icons.send),
+                    label: const Text('Submit Information'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 20.0),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required IconData icon,
+    required String label,
+    required TextEditingController controller,
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          border: const OutlineInputBorder(),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter $label';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  Widget _buildDropdown({
+    required IconData icon,
+    required String label,
+    required String? value,
+    required List<String> items,
+    required void Function(String?) onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          border: const OutlineInputBorder(),
+        ),
+        items: items
+            .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                ))
+            .toList(),
+        onChanged: onChanged,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please select $label';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  Widget _buildHealthConditionRadio({
+    required IconData icon,
+    required String label,
+    required String? value,
+    required void Function(String?) onChanged,
+  }) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon),
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              children: _healthConditions.map((condition) {
+                return Expanded(
+                  child: RadioListTile<String>(
+                    value: condition,
+                    groupValue: value,
+                    title: Text(condition),
+                    onChanged: onChanged,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
         ),
       ),
     );
