@@ -44,7 +44,6 @@ class ProfileScreen extends StatelessWidget {
             Divider(),
             Text(email, style: TextStyle(fontSize: 18)),
             Divider(),
-            // Display other patient information
             Text('Gender: ${patientInfo['Gender']}'),
             Divider(),
             Text('Height: ${patientInfo['Height']} cm'),
@@ -69,12 +68,10 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to the login screen (OnboardingScreen)
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          LoginScreen(), // Assuming this is your login screen
+                      builder: (context) => LoginScreen(),
                     ),
                   );
                 },
