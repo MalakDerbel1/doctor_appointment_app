@@ -145,7 +145,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
       final lng = widget.doctorModel.longitude!;
 
       final Uri googleMapsUri = Uri.parse(
-          'https://www.google.com/maps/search/?q=$lat,$lng'); // Use the https URL
+          'https://maps.google.com/?q=$lat,$lng'); // Use the https URL
 
       if (await canLaunchUrl(googleMapsUri)) {
         await launchUrl(googleMapsUri);
@@ -277,7 +277,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                     label: const Text('See Localisation'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: const Color.fromARGB(255, 133, 198, 170),
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 25),
                       shape: RoundedRectangleBorder(
