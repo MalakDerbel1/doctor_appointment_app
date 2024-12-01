@@ -1,4 +1,5 @@
 import 'package:DocEase/domain/doctor_model.dart';
+import 'package:DocEase/screens/calendar_screen/calendar_screen.dart';
 import 'package:DocEase/screens/call_screen/call_screen.dart';
 import 'package:DocEase/screens/doctor_detail_screen/icon_widget.dart';
 import 'package:DocEase/utils/constant/app_constant.dart';
@@ -16,6 +17,8 @@ class DoctorDetailsScreen extends StatefulWidget {
 }
 
 class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
+  String? _reservedDate;
+String? _reservedTime;
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -57,65 +60,79 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
   }
 
   // Function to show reservation dialog
-  void _showReservationDialog() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Réservation'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Champ Date
-              GestureDetector(
-                onTap: () => _selectDate(context),
-                child: AbsorbPointer(
-                  child: TextField(
-                    controller:
-                        _dateController, // Utilisation du controller pour le champ de date
-                    decoration: const InputDecoration(labelText: 'Date'),
-                    keyboardType: TextInputType.datetime,
-                  ),
+ void _showReservationDialog() async {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Réservation'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Champ Date
+            GestureDetector(
+              onTap: () => _selectDate(context),
+              child: AbsorbPointer(
+                child: TextField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(labelText: 'Date'),
+                  keyboardType: TextInputType.datetime,
                 ),
               ),
-
-              // Champ Heure
-              GestureDetector(
-                onTap: () => _selectTime(context),
-                child: AbsorbPointer(
-                  child: TextField(
-                    controller:
-                        _timeController, // Utilisation du controller pour le champ d'heure
-                    decoration: const InputDecoration(labelText: 'Hour'),
-                    keyboardType: TextInputType.datetime,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
             ),
-            TextButton(
-              onPressed: () {
-                // Vous pouvez ajouter la logique de réservation ici
-                Navigator.of(context).pop();
-                // Afficher une confirmation ou effectuer une action
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Appointment made')),
-                );
-              },
-              child: const Text('Book'),
+            // Champ Heure
+            GestureDetector(
+              onTap: () => _selectTime(context),
+              child: AbsorbPointer(
+                child: TextField(
+                  controller: _timeController,
+                  decoration: const InputDecoration(labelText: 'Hour'),
+                  keyboardType: TextInputType.datetime,
+                ),
+              ),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Récupérer les informations de réservation
+              final date = _dateController.text;
+              final time = _timeController.text;
+
+              setState(() {
+                _reservedDate = date;
+                _reservedTime = time;
+              });
+
+              Navigator.of(context).pop(); // Fermer la boîte de dialogue
+
+              // Passer les informations à ClientAppointmentCalendar
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ClientAppointmentCalendar(
+                    selectedDate: date,
+                    selectedTime: time,
+                    doctorName: widget.doctorModel.doctorName,
+                  ),
+                ),
+              );
+            },
+            child: const Text('Book'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   void _callVoice() {
     Navigator.push(
@@ -315,7 +332,18 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                 ),
               ),
             ),
+
+
+
+
+
+
+
+
+
+            
             Padding(
+              
               padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -359,6 +387,47 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                           Colors.black.withOpacity(0.25), // Ombre légère
                     ),
                   ),
+                  if (_reservedDate != null && _reservedTime != null)
+  Padding(
+    padding: const EdgeInsets.all(20),
+    child: Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.lightBlueAccent.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          customTextWidget(
+            text: "Your Reservation:",
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          const SizedBox(height: 10),
+          customTextWidget(
+            text: "Doctor: ${widget.doctorModel.doctorName}",
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+          customTextWidget(
+            text: "Date: $_reservedDate",
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+          customTextWidget(
+            text: "Time: $_reservedTime",
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+        ],
+      ),
+    ),
+  ),
+
                 ],
               ),
             ),
