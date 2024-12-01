@@ -1,4 +1,5 @@
 import 'package:DocEase/screens/auth_screens/login_screen/login_screen.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -314,16 +315,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(patientInfo['Has Heart Problems'] ?? 'N/A'),
                     ),
                     // Edit button
-                    // Button to trigger update dialog
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _showUpdateDialog(context);
-                        },
-                        child: const Text('Update Information'),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(
+                                255, 115, 160, 223), // Button color
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 25.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(30.0), // Rounded shape
+                            ),
+                            elevation: 5, // Add elevation for raised look
+                            shadowColor:
+                                Colors.black.withOpacity(0.25), // Shadow color
+                          ),
+                          onPressed: () {
+                            _showUpdateDialog(context);
+                          },
+                          child: const Text(
+                            'Update your Informations',
+                            style: TextStyle(
+                              color: Colors.white, // Text color
+                              fontSize: 16.0, // Font size
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -332,10 +354,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Align(
-                alignment: Alignment.center, // Center the button
-                child: Container(
-                  width: 200, // Set the width to your desired size
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 200, // Set the button width
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(
+                          255, 115, 160, 223), // Button color
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 25.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30.0), // Rounded shape
+                      ),
+                      elevation: 5, // Add elevation for raised look
+                      shadowColor:
+                          Colors.black.withOpacity(0.25), // Shadow color
+                    ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
@@ -344,11 +379,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       );
                     },
-                    child: const Text('Logout'),
+                    child: const Text(
+                      'Log out',
+                      style: TextStyle(
+                        color: Colors.white, // Text color
+                        fontSize: 16.0, // Font size
+                      ),
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

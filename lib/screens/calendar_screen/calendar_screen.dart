@@ -157,6 +157,12 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                Navigator.pop(context); // Close form dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
                 if (_creditCardFormKey.currentState!.validate()) {
                   Navigator.pop(context); // Close form dialog
                   _processPayment(context); // Simulate payment processing
@@ -181,12 +187,6 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
                 }
               },
               child: const Text('Confirm'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close form dialog
-              },
-              child: const Text('Cancel'),
             ),
           ],
         );
