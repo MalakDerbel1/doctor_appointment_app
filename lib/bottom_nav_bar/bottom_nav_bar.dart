@@ -11,12 +11,16 @@ class BottomNavBar extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
+  final String? appointmentDate; // Nullable appointment date
+  final String? appointmentTime; // Nullable appointment time
 
   const BottomNavBar({
     Key? key,
     required this.firstName,
     required this.lastName,
     required this.email,
+    this.appointmentDate,
+    this.appointmentTime,
   }) : super(key: key);
 
   @override
@@ -31,7 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    // Initialize pages with data
+    // Initialize pages with passed data
     _pages = [
       HomeScreen(
         firstName: widget.firstName,
@@ -44,10 +48,10 @@ ClientAppointmentCalendar(
     doctorName: 'Dr. John Doe', // Ajout du paramètre manquant
   ),      ChatScreen(),
       ProfileScreen(
-        firstName: widget.firstName,
-        lastName: widget.lastName,
-        email: widget.email,
-      ),
+          firstName: widget.firstName, // Pass firstName
+          lastName: widget.lastName, // Pass lastName
+          email: widget.email, // Pass email
+          patientInfo: {}),
     ];
   }
 
@@ -119,6 +123,7 @@ ClientAppointmentCalendar(
                 Navigator.pop(context); // Close the drawer
               },
             ),
+
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
@@ -147,7 +152,7 @@ ClientAppointmentCalendar(
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      body: _pages[_selectedIndex], // Display the selected screen
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
