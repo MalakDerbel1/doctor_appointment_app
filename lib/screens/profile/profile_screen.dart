@@ -45,6 +45,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (savedData != null) {
       setState(() {
         patientInfo = json.decode(savedData);
+        // Ensure all fields are populated with a fallback value if they are missing
+        patientInfo.putIfAbsent('Gender', () => 'N/A');
+        patientInfo.putIfAbsent('Allergies', () => 'N/A');
+        patientInfo.putIfAbsent('Has Diabetes', () => 'N/A');
+        patientInfo.putIfAbsent('Has Heart Problems', () => 'N/A');
+        patientInfo.putIfAbsent('Height', () => 'N/A');
+        patientInfo.putIfAbsent('Weight', () => 'N/A');
+        patientInfo.putIfAbsent('Has Fever', () => 'N/A');
       });
     } else {
       setState(() {
@@ -282,28 +290,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Divider(),
                     ListTile(
                       title: const Text('Gender'),
-                      subtitle: Text(patientInfo['Gender']),
+                      subtitle: Text(patientInfo['Gender'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Height'),
-                      subtitle: Text('${patientInfo['Height']} cm'),
+                      subtitle: Text('${patientInfo['Height'] ?? 'N/A'} cm'),
                     ),
                     ListTile(
                       title: const Text('Weight'),
-                      subtitle: Text('${patientInfo['Weight']} kg'),
+                      subtitle: Text('${patientInfo['Weight'] ?? 'N/A'} kg'),
                     ),
                     ListTile(
                       title: const Text('Allergies'),
-                      subtitle: Text(patientInfo['Allergies']),
+                      subtitle: Text(patientInfo['Allergies'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Has Diabetes'),
-                      subtitle: Text(patientInfo['Has Diabetes']),
+                      subtitle: Text(patientInfo['Has Diabetes'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Has Heart Problems'),
-                      subtitle: Text(patientInfo['Has Heart Problems']),
+                      subtitle:
+                          Text(patientInfo['Has Heart Problems'] ?? 'N/A'),
                     ),
+                    // Edit button
                     // Button to trigger update dialog
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),

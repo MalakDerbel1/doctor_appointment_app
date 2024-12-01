@@ -8,7 +8,10 @@ class DoctorModel {
   final String experience;
   final int patients;
   late final bool isFav;
-  final String doctorImage; // Use String to represent the image constant
+  final String doctorImage;
+  final double? latitude; // New field for latitude
+  final double?
+      longitude; // New field for longitude// Use String to represent the image constant
 
   DoctorModel({
     required this.doctorName,
@@ -21,6 +24,8 @@ class DoctorModel {
     required this.patients,
     required this.isFav,
     required this.doctorImage,
+    required this.latitude, // Ensure required for geolocation
+    required this.longitude,
   });
 
   // Factory method to create a DoctorModel from JSON
@@ -36,6 +41,8 @@ class DoctorModel {
       patients: json['patients'],
       isFav: json['isFav'],
       doctorImage: json['doctorImage'],
+      latitude: json['latitude']?.toDouble(), // Deserialize latitude
+      longitude: json['longitude']?.toDouble(),
     );
   }
 
@@ -52,6 +59,8 @@ class DoctorModel {
       'patients': patients,
       'isFav': isFav,
       'doctorImage': doctorImage,
+      'latitude': latitude, // Serialize latitude
+      'longitude': longitude,
     };
   }
 }
