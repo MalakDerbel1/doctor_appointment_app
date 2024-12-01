@@ -1,4 +1,3 @@
-import 'package:DocEase/screens/Mes_informations/mes_informations.dart';
 import 'package:DocEase/screens/calendar_screen/calendar_screen.dart';
 import 'package:DocEase/screens/chat_screen/chat_screen.dart';
 import 'package:DocEase/screens/home_screen/home_screen.dart';
@@ -47,22 +46,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ClientAppointmentCalendar(),
       ChatScreen(),
       ProfileScreen(
-        firstName: widget.firstName, // Pass firstName
-        lastName: widget.lastName, // Pass lastName
-        email: widget.email, // Pass email
-        patientInfo: {
-          'Gender':
-              'Enter your information', // Example gender, you should get this from the form or database
-          'Height': 'Enter your information', // Example height
-          'Weight': 'Enter your information', // Example weight
-          'Allergies': 'Enter your information', // Example allergy
-          'Medical History':
-              'Enter your information', // Example medical history
-          'Lifestyle': 'Enter your information', // Example lifestyle
-          'Date of Visit':
-              widget.appointmentDate ?? 'Not provided', // Example date
-        },
-      ),
+          firstName: widget.firstName, // Pass firstName
+          lastName: widget.lastName, // Pass lastName
+          email: widget.email, // Pass email
+          patientInfo: {}),
     ];
   }
 
@@ -134,22 +121,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 Navigator.pop(context); // Close the drawer
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('Mes informations'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PatientInformationForm(
-                      firstName: widget.firstName, // Pass firstName
-                      lastName: widget.lastName, // Pass lastName
-                      email: widget.email,
-                    ),
-                  ),
-                );
-              },
-            ),
+
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),

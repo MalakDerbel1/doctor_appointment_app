@@ -8,17 +8,17 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: customTextWidget(
-            text: "Settings",
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white),
+          text: "Settings",
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
         backgroundColor: primaryColor,
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // This will pop the current screen off the navigation stack and return to the previous screen
-            Navigator.pop(context);
+            Navigator.pop(context); // Pop the current screen to go back
           },
         ),
       ),
@@ -28,6 +28,7 @@ class SettingsScreen extends StatelessWidget {
           children: [
             // Profile settings section
             ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
               leading: Icon(Icons.person, color: primaryColor),
               title: customTextWidget(
                 text: "Profile",
@@ -36,12 +37,14 @@ class SettingsScreen extends StatelessWidget {
               ),
               onTap: () {
                 // Navigate to the profile screen if needed
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
               },
             ),
-            Divider(color: Colors.grey),
+            Divider(color: Colors.grey[400], thickness: 1),
 
             // Notification settings section
             ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
               leading: Icon(Icons.notifications, color: primaryColor),
               title: customTextWidget(
                 text: "Notifications",
@@ -50,12 +53,14 @@ class SettingsScreen extends StatelessWidget {
               ),
               onTap: () {
                 // Navigate to notification settings if needed
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSettingsScreen()));
               },
             ),
-            Divider(color: Colors.grey),
+            Divider(color: Colors.grey[400], thickness: 1),
 
             // Theme settings section
             ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
               leading: Icon(Icons.color_lens, color: primaryColor),
               title: customTextWidget(
                 text: "Theme",
@@ -64,12 +69,14 @@ class SettingsScreen extends StatelessWidget {
               ),
               onTap: () {
                 // Navigate to theme settings if needed
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => ThemeSettingsScreen()));
               },
             ),
-            Divider(color: Colors.grey),
+            Divider(color: Colors.grey[400], thickness: 1),
 
             // Language settings section
             ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
               leading: Icon(Icons.language, color: primaryColor),
               title: customTextWidget(
                 text: "Language",
@@ -78,12 +85,14 @@ class SettingsScreen extends StatelessWidget {
               ),
               onTap: () {
                 // Navigate to language settings if needed
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageSettingsScreen()));
               },
             ),
-            Divider(color: Colors.grey),
+            Divider(color: Colors.grey[400], thickness: 1),
 
             // Logout option section
             ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
               leading: Icon(Icons.exit_to_app, color: primaryColor),
               title: customTextWidget(
                 text: "Log Out",
