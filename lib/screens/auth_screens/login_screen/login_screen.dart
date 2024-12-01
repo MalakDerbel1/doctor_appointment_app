@@ -5,7 +5,6 @@ import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:DocEase/utils/widgets/button_widget.dart';
 import 'package:DocEase/utils/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -13,7 +12,6 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController lastNameController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

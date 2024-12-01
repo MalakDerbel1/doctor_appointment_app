@@ -1,134 +1,264 @@
-import 'package:DocEase/utils/themes/color_themes.dart';
-import 'package:DocEase/utils/widgets/button_widget.dart';
-import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ClientAppointmentCalendar extends StatefulWidget {
+  final String selectedDate;
+  final String selectedTime;
+  final String doctorName;
+
+  const ClientAppointmentCalendar({
+    required this.selectedDate,
+    required this.selectedTime,
+    required this.doctorName,
+    Key? key,
+  }) : super(key: key);
+
   @override
   _ClientAppointmentCalendarState createState() =>
       _ClientAppointmentCalendarState();
 }
 
 class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  String? _selectedPaymentMethod;
+  final _creditCardFormKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _expirationDateController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
 
-  // Dummy data for available slots
-  Map<DateTime, List<String>> availableSlots = {
-    DateTime(2024, 9, 24): ["9:00 AM", "11:00 AM", "3:00 PM"],
-    DateTime(2024, 9, 25): ["10:00 AM", "1:00 PM", "5:00 PM"],
-    DateTime(2024, 9, 26): ["8:00 AM", "12:00 PM", "4:00 PM"],
-    DateTime(2024, 9, 27): ["9:00 AM", "11:00 AM", "3:00 PM"],
-    DateTime(2024, 9, 28): ["10:00 AM", "1:00 PM", "5:00 PM"],
-    DateTime(2024, 9, 29): ["8:00 AM", "12:00 PM", "4:00 PM"],
-    DateTime(2024, 9, 30): ["8:00 AM", "12:00 PM", "4:00 PM"],
-  };
+  bool _isPaymentValid = false; // Track if the payment is valid
 
-  // Function to remove time component from DateTime
-  DateTime _stripTime(DateTime date) {
-    return DateTime(date.year, date.month, date.day);
+  // Function to show the payment method dialog
+  void _showPaymentDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Choose Payment Method'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: const Text('Cash'),
+                leading: Radio<String>(
+                  value: 'Cash',
+                  groupValue: _selectedPaymentMethod,
+                  onChanged: (String? value) {
+                    setState(() {
+                      _selectedPaymentMethod = value;
+                    });
+                    Navigator.pop(context); // Close dialog
+                    _processPayment(context);
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Credit Card'),
+                leading: Radio<String>(
+                  value: 'Credit Card',
+                  groupValue: _selectedPaymentMethod,
+                  onChanged: (String? value) {
+                    setState(() {
+                      _selectedPaymentMethod = value;
+                    });
+                    Navigator.pop(context); // Close dialog
+                    _showCreditCardForm(context); // Show credit card form
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Function to show the credit card form
+  void _showCreditCardForm(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Enter Credit Card Information'),
+          content: Form(
+            key: _creditCardFormKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _cardNumberController,
+                  decoration: const InputDecoration(labelText: 'Card Number'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your card number';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _expirationDateController,
+                  decoration: const InputDecoration(labelText: 'Expiration Date (MM/YY)'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter expiration date';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _cvvController,
+                  decoration: const InputDecoration(labelText: 'Security Code (CVV)'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter CVV';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                if (_creditCardFormKey.currentState!.validate()) {
+                  Navigator.pop(context); // Close form dialog
+                  _processPayment(context); // Simulate payment processing
+                  setState(() {
+                    // Mark payment as valid
+                    _isPaymentValid = true;
+                  });
+                  // Show a success message at the bottom using a SnackBar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: const [
+                          Icon(Icons.check_circle_outline, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text('Payment Valid', style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Confirm'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close form dialog
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Function to simulate the payment process
+  void _processPayment(BuildContext context) {
+    if (_selectedPaymentMethod != null) {
+      // Payment is processed
+      setState(() {
+        _isPaymentValid = true; // Payment marked as valid
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: customTextWidget(
-            text: "Book an Appointment",
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white),
-        backgroundColor: primaryColor,
-        automaticallyImplyLeading: false,
-      ),
-      body: Column(
-        children: [
-          // Calendar widget
-          TableCalendar(
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // Update focused day as well
-              });
-            },
-            calendarFormat: _calendarFormat,
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            },
-            availableGestures: AvailableGestures.all,
-          ),
-          const SizedBox(height: 16),
+    Color primaryColor = const Color.fromARGB(255, 115, 160, 223);
+    Color lightPurpleColor = const Color(0xffC8C8F4);
 
-          // Appointment Slots section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: customTextWidget(
-              text: _selectedDay != null
-                  ? 'Available Slots on ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}'
-                  : 'Select a Date to see available slots',
-              fontSize: 16,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Your Appointment"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Appointment Details:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text("Doctor: ${widget.doctorName}"),
+            Text("Date: ${widget.selectedDate}"),
+            Text("Time: ${widget.selectedTime}"),
+            const SizedBox(height: 20),
+
+            // Displaying payment status with an elegant label above the button
+            if (_isPaymentValid)
+  Padding(
+    padding: const EdgeInsets.only(bottom: 20),
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      decoration: BoxDecoration(
+        color: Colors.blue.withOpacity(0.1), // Background color changed to blue
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.blue), // Border color changed to blue
+      ),
+      child: Row(
+        children: const [
+          Icon(
+            Icons.check_circle_outline,
+            color: Colors.blue, // Icon color changed to blue
+          ),
+          SizedBox(width: 8),
+          Text(
+            'Payment Valid',
+            style: TextStyle(
+              color: Colors.blue, // Text color changed to blue
               fontWeight: FontWeight.bold,
-              color: primaryColor,
+              fontSize: 16,
             ),
           ),
-
-          const SizedBox(height: 16),
-
-          // Display available slots for the selected day
-          Expanded(
-            child: _selectedDay != null &&
-                    availableSlots.containsKey(_stripTime(_selectedDay!))
-                ? ListView.builder(
-                    itemCount:
-                        availableSlots[_stripTime(_selectedDay!)]!.length,
-                    itemBuilder: (context, index) {
-                      String timeSlot =
-                          availableSlots[_stripTime(_selectedDay!)]![index];
-                      return ListTile(
-                        leading: Icon(Icons.schedule, color: primaryColor),
-                        title: customTextWidget(
-                            text: timeSlot, fontWeight: FontWeight.bold),
-                        trailing: customButtonWidget(
-                            onPressed: () {
-                              // Handle booking appointment here
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: customTextWidget(
-                                        text:
-                                            'Appointment booked for $timeSlot',
-                                        color: Colors.white)),
-                              );
-                            },
-                            text: 'Book',
-                            fontColor: Colors.white,
-                            buttonColor: primaryColor,
-                            buttonHeight: 30,
-                            fontWeight: FontWeight.w600,
-                            buttonWidth: 70),
-                      );
-                    },
-                  )
-                : Center(
-                    child: Text(
-                      _selectedDay != null
-                          ? 'No available slots on this day.'
-                          : 'Select a date to view slots.',
-                      style: const TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                  ),
-          ),
         ],
+      ),
+    ),
+  ),
+
+
+            // Buttons displayed side by side with primaryColor and lightPurpleColor
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _showPaymentDialog(context); // Show payment method dialog
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor, // Primary color for the button
+                  ),
+                  child: const Text("Pay"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Return to previous screen
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: lightPurpleColor, // Light purple color for the button
+                  ),
+                  child: const Text("Back to Doctor Details"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

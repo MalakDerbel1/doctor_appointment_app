@@ -7,7 +7,6 @@ import 'package:DocEase/screens/settings/settings_screen.dart';
 import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 class BottomNavBar extends StatefulWidget {
   final String firstName;
   final String lastName;
@@ -43,8 +42,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
         lastName: widget.lastName,
         email: widget.email,
       ),
-      ClientAppointmentCalendar(),
-      ChatScreen(),
+ClientAppointmentCalendar(
+    selectedDate: '2024-11-27',
+    selectedTime: '10:00 PM',
+    doctorName: 'Dr. John Doe', // Ajout du paramètre manquant
+  ),      ChatScreen(),
       ProfileScreen(
           firstName: widget.firstName, // Pass firstName
           lastName: widget.lastName, // Pass lastName
