@@ -23,6 +23,9 @@ List<DoctorModel> doctorList = [
     experience: "7+ years",
     patients: 120,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage2,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Example longitude
     doctorImage: ImageConstant.doctor2,
   ),
   DoctorModel(
@@ -36,6 +39,9 @@ List<DoctorModel> doctorList = [
     experience: "10+ years",
     patients: 200,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage1,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor1, // Update with the actual path or constant
   ),
@@ -51,6 +57,9 @@ List<DoctorModel> doctorList = [
     experience: "8+ years",
     patients: 180,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage2,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor5, // Update with the actual path or constant
   ),
@@ -66,6 +75,9 @@ List<DoctorModel> doctorList = [
     experience: "12+ years",
     patients: 300,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor3, // Update with the actual path or constant
   ),
@@ -81,6 +93,9 @@ List<DoctorModel> doctorList = [
     experience: "12+ years",
     patients: 300,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor9, // Update with the actual path or constant
   ),
@@ -96,6 +111,9 @@ List<DoctorModel> doctorList = [
     experience: "12+ years",
     patients: 300,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor10, // Update with the actual path or constant
   ),
@@ -111,6 +129,9 @@ List<DoctorModel> doctorList = [
     experience: "12+ years",
     patients: 300,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor6, // Update with the actual path or constant
   ),
@@ -127,6 +148,9 @@ List<DoctorModel> doctorList = [
     experience: "9+ years",
     patients: 250,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor8, // Update with the actual path or constant
   ),
@@ -142,6 +166,9 @@ List<DoctorModel> doctorList = [
     experience: "9+ years",
     patients: 250,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor7, // Update with the actual path or constant
   ),
@@ -157,6 +184,9 @@ List<DoctorModel> doctorList = [
     experience: "9+ years",
     patients: 250,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor11, // Update with the actual path or constant
   ),
@@ -172,6 +202,9 @@ List<DoctorModel> doctorList = [
     experience: "9+ years",
     patients: 250,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor10, // Update with the actual path or constant
   ),
@@ -187,6 +220,9 @@ List<DoctorModel> doctorList = [
     experience: "9+ years",
     patients: 250,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor11, // Update with the actual path or constant
   ),
@@ -203,6 +239,9 @@ List<DoctorModel> doctorList = [
     experience: "7+ years",
     patients: 110,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor12, // Update with the actual path or constant
   ),
@@ -217,6 +256,9 @@ List<DoctorModel> doctorList = [
     experience: "7+ years",
     patients: 110,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor19 // Update with the actual path or constant
   ),
@@ -231,6 +273,9 @@ List<DoctorModel> doctorList = [
     experience: "7+ years",
     patients: 110,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage4,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor13, // Update with the actual path or constant
   ),
@@ -247,6 +292,9 @@ List<DoctorModel> doctorList = [
     experience: "11+ years",
     patients: 220,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor15, // Update with the actual path or constant
   ),
@@ -262,6 +310,9 @@ List<DoctorModel> doctorList = [
     experience: "11+ years",
     patients: 220,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor14, // Update with the actual path or constant
   ),
@@ -277,6 +328,9 @@ List<DoctorModel> doctorList = [
     experience: "11+ years",
     patients: 220,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor22, // Update with the actual path or constant
   ),
@@ -292,6 +346,9 @@ List<DoctorModel> doctorList = [
     experience: "11+ years",
     patients: 220,
     isFav: true,
+    doctorImage: ImageConstant.doctorImage3,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor23, // Update with the actual path or constant
   ),
@@ -308,6 +365,9 @@ List<DoctorModel> doctorList = [
     experience: "6+ years",
     patients: 150,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage5,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor21, // Update with the actual path or constant
   ),
@@ -323,6 +383,9 @@ List<DoctorModel> doctorList = [
     experience: "6+ years",
     patients: 150,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage5,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor17, // Update with the actual path or constant
   ),
@@ -338,6 +401,9 @@ List<DoctorModel> doctorList = [
     experience: "6+ years",
     patients: 150,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage5,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor18, // Update with the actual path or constant
   ),
@@ -353,6 +419,9 @@ List<DoctorModel> doctorList = [
     experience: "6+ years",
     patients: 150,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage5,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor43, // Update with the actual path or constant
   ),
@@ -368,6 +437,9 @@ List<DoctorModel> doctorList = [
     experience: "6+ years",
     patients: 150,
     isFav: false,
+    doctorImage: ImageConstant.doctorImage5,
+    latitude: 34.8151642, // Example latitude
+    longitude: 10.7357895, // Update with the actual path or constant
     doctorImage:
         ImageConstant.doctor16, // Update with the actual path or constant
   ),

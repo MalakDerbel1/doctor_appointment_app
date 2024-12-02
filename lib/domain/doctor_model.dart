@@ -7,8 +7,11 @@ class DoctorModel {
   final double rating;
   final String experience;
   final int patients;
-  late bool isFav; // `late` pour initialisation différée
+  late final bool isFav;
   final String doctorImage;
+  final double? latitude; // New field for latitude
+  final double?
+      longitude; // New field for longitude// Use String to represent the image constant
 
   DoctorModel({
     required this.doctorName,
@@ -21,21 +24,25 @@ class DoctorModel {
     required this.patients,
     required this.isFav,
     required this.doctorImage,
+    required this.latitude, // Ensure required for geolocation
+    required this.longitude,
   });
 
   // Factory method to create a DoctorModel from JSON
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      doctorName: json['doctorName'] as String,
-      speciality: json['speciality'] as String,
-      clinicName: json['clinicName'] as String,
-      totalReviews: json['totalReviews'] as int,
-      about: json['about'] as String,
-      rating: (json['rating'] as num).toDouble(),
-      experience: json['experience'] as String,
-      patients: json['patients'] as int,
-      isFav: json['isFav'] as bool,
-      doctorImage: json['doctorImage'] as String,
+      doctorName: json['doctorName'],
+      speciality: json['speciality'],
+      clinicName: json['clinicName'],
+      totalReviews: json['totalReviews'],
+      about: json['about'],
+      rating: json['rating'].toDouble(),
+      experience: json['experience'],
+      patients: json['patients'],
+      isFav: json['isFav'],
+      doctorImage: json['doctorImage'],
+      latitude: json['latitude']?.toDouble(), // Deserialize latitude
+      longitude: json['longitude']?.toDouble(),
     );
   }
 
@@ -52,6 +59,8 @@ class DoctorModel {
       'patients': patients,
       'isFav': isFav,
       'doctorImage': doctorImage,
+      'latitude': latitude, // Serialize latitude
+      'longitude': longitude,
     };
   }
 }

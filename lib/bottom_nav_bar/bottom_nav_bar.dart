@@ -7,6 +7,7 @@ import 'package:DocEase/screens/settings/settings_screen.dart';
 import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class BottomNavBar extends StatefulWidget {
   final String firstName;
   final String lastName;
@@ -47,7 +48,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         firstName: widget.firstName,
         lastName: widget.lastName,
         email: widget.email,
-        patientInfo: {}, // Fournissez un dictionnaire si nécessaire
+        patientInfo: {}, // Passe une map vide pour éviter les erreurs
       ),
     ];
   }
@@ -65,7 +66,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             // En-tête du drawer
             UserAccountsDrawerHeader(
-              accountName: Text("${widget.firstName} ${widget.lastName}"),
+              accountName: Text('${widget.firstName} ${widget.lastName}'),
               accountEmail: Text(widget.email),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
@@ -87,7 +88,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 setState(() {
                   _selectedIndex = 0;
                 });
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
               },
             ),
             ListTile(
@@ -105,7 +106,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               title: const Text('Profile'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 2; // Correspond à l'indice de ProfileScreen
+                  _selectedIndex = 2;
                 });
                 Navigator.pop(context);
               },
@@ -127,7 +128,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => OnboardingScreen(),
@@ -138,7 +139,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ],
         ),
       ),
-      body: _pages[_selectedIndex], // Affiche l'écran correspondant
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {

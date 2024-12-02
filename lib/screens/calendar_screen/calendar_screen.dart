@@ -22,7 +22,8 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
   final _creditCardFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _expirationDateController = TextEditingController();
+  final TextEditingController _expirationDateController =
+      TextEditingController();
   final TextEditingController _cvvController = TextEditingController();
 
   bool _isPaymentValid = false; // Track if the payment is valid
@@ -72,63 +73,94 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
     );
   }
 
-  // Function to show the credit card form
   void _showCreditCardForm(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Enter Credit Card Information'),
-          content: Form(
-            key: _creditCardFormKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _cardNumberController,
-                  decoration: const InputDecoration(labelText: 'Card Number'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your card number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _expirationDateController,
-                  decoration: const InputDecoration(labelText: 'Expiration Date (MM/YY)'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter expiration date';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _cvvController,
-                  decoration: const InputDecoration(labelText: 'Security Code (CVV)'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter CVV';
-                    }
-                    return null;
-                  },
-                  obscureText: true,
-                ),
-              ],
+          content: SingleChildScrollView(
+            child: Form(
+              key: _creditCardFormKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      // Email regex validation
+                      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _cardNumberController,
+                    decoration: const InputDecoration(labelText: 'Card Number'),
+                    keyboardType: TextInputType.number,
+                    maxLength: 16, // Limit input to 16 digits
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your card number';
+                      }
+                      if (value.length != 16 || int.tryParse(value) == null) {
+                        return 'Card number must be 16 digits';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _expirationDateController,
+                    decoration: const InputDecoration(
+                        labelText: 'Expiration Date (MM/YY)'),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter the expiration date';
+                      }
+                      // Validate expiration date format
+                      final dateRegex = RegExp(r'^(0[1-9]|1[0-2])\/\d{2}$');
+
+                      if (!dateRegex.hasMatch(value)) {
+                        return 'Enter a valid expiration date (MM/YY)';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _cvvController,
+                    decoration:
+                        const InputDecoration(labelText: 'Security Code (CVV)'),
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    maxLength: 3, // Limit CVV to 3 digits
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter CVV';
+                      }
+                      if (value.length != 3 || int.tryParse(value) == null) {
+                        return 'CVV must be 3 digits';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close form dialog
+              },
+              child: const Text('Cancel'),
+            ),
             TextButton(
               onPressed: () {
                 if (_creditCardFormKey.currentState!.validate()) {
@@ -145,7 +177,8 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
                         children: const [
                           Icon(Icons.check_circle_outline, color: Colors.white),
                           SizedBox(width: 10),
-                          Text('Payment Valid', style: TextStyle(color: Colors.white)),
+                          Text('Payment Valid',
+                              style: TextStyle(color: Colors.white)),
                         ],
                       ),
                       backgroundColor: Colors.green,
@@ -154,12 +187,6 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
                 }
               },
               child: const Text('Confirm'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close form dialog
-              },
-              child: const Text('Cancel'),
             ),
           ],
         );
@@ -203,35 +230,37 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
 
             // Displaying payment status with an elegant label above the button
             if (_isPaymentValid)
-  Padding(
-    padding: const EdgeInsets.only(bottom: 20),
-    child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.1), // Background color changed to blue
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue), // Border color changed to blue
-      ),
-      child: Row(
-        children: const [
-          Icon(
-            Icons.check_circle_outline,
-            color: Colors.blue, // Icon color changed to blue
-          ),
-          SizedBox(width: 8),
-          Text(
-            'Payment Valid',
-            style: TextStyle(
-              color: Colors.blue, // Text color changed to blue
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    ),
-  ),
-
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.blue
+                        .withOpacity(0.1), // Background color changed to blue
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                        color: Colors.blue), // Border color changed to blue
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.check_circle_outline,
+                        color: Colors.blue, // Icon color changed to blue
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Payment Valid',
+                        style: TextStyle(
+                          color: Colors.blue, // Text color changed to blue
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
             // Buttons displayed side by side with primaryColor and lightPurpleColor
             Row(
@@ -242,7 +271,8 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
                     _showPaymentDialog(context); // Show payment method dialog
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor, // Primary color for the button
+                    backgroundColor:
+                        primaryColor, // Primary color for the button
                   ),
                   child: const Text("Pay"),
                 ),
@@ -251,7 +281,8 @@ class _ClientAppointmentCalendarState extends State<ClientAppointmentCalendar> {
                     Navigator.pop(context); // Return to previous screen
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: lightPurpleColor, // Light purple color for the button
+                    backgroundColor:
+                        lightPurpleColor, // Light purple color for the button
                   ),
                   child: const Text("Back to Doctor Details"),
                 ),

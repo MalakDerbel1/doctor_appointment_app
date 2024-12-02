@@ -7,6 +7,10 @@ import 'package:DocEase/utils/constant/image_constant.dart';
 import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:DocEase/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
   final DoctorModel doctorModel;
@@ -50,7 +54,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
     }
   }
 
-  // Function to show reservation dialog
   void _showReservationDialog() async {
     showDialog(
       context: context,
@@ -60,7 +63,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Champ Date
               GestureDetector(
                 onTap: () => _selectDate(context),
                 child: AbsorbPointer(
@@ -71,7 +73,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                   ),
                 ),
               ),
-              // Champ Heure
               GestureDetector(
                 onTap: () => _selectTime(context),
                 child: AbsorbPointer(
@@ -92,19 +93,34 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
               child: const Text('Close'),
             ),
             TextButton(
-              onPressed: () {
-                // Récupérer les informations de réservation
+              onPressed: () async {
                 final date = _dateController.text;
                 final time = _timeController.text;
+
+                if (date.isEmpty || time.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select both a date and a time."),
+                    ),
+                  );
+                  return; // Exit the method if fields are empty
+                }
 
                 setState(() {
                   _reservedDate = date;
                   _reservedTime = time;
                 });
 
-                Navigator.of(context).pop(); // Fermer la boîte de dialogue
+                // Save reservation data with the doctor's ID
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString(
+                    '${widget.doctorModel.doctorName}_reservedDate', date);
+                await prefs.setString(
+                    '${widget.doctorModel.doctorName}_reservedTime', time);
 
-                // Passer les informations à ClientAppointmentCalendar
+                Navigator.of(context).pop();
+
+                // Navigate to ClientAppointmentCalendar with reservation details
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -124,6 +140,22 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _loadReservation();
+  }
+
+  void _loadReservation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _reservedDate =
+          prefs.getString('${widget.doctorModel.doctorName}_reservedDate');
+      _reservedTime =
+          prefs.getString('${widget.doctorModel.doctorName}_reservedTime');
+    });
+  }
+
   void _callVoice() {
     Navigator.push(
       context,
@@ -133,6 +165,29 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
         ),
       ),
     );
+  }
+
+  void _openGoogleMaps() async {
+    if (widget.doctorModel.latitude != null &&
+        widget.doctorModel.longitude != null) {
+      final lat = widget.doctorModel.latitude!;
+      final lng = widget.doctorModel.longitude!;
+
+      final Uri googleMapsUri = Uri.parse(
+          'https://maps.google.com/?q=$lat,$lng'); // Use the https URL
+
+      if (await canLaunchUrl(googleMapsUri)) {
+        await launchUrl(googleMapsUri);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Could not open Google Maps.")),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Location not available for this doctor.")),
+      );
+    }
   }
 
   @override
@@ -157,7 +212,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                     ),
                     const Spacer(),
                     customTextWidget(
-                      text: "My Appointments",
+                      text: "Doctor Details",
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -243,6 +298,26 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                 ),
                 const SizedBox(height: 20),
 
+                // Localisation Button
+                Center(
+                  child: ElevatedButton.icon(
+                    onPressed: _openGoogleMaps,
+                    icon: const Icon(Icons.location_on, color: Colors.white),
+                    label: const Text('See Localisation'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 133, 198, 170),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 25),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
                 // Doctor Statistics Section
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -285,57 +360,12 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                   color: lighterColor,
                   lineHeight: 1.5,
                 ),
-
-                // Reservation and Call Buttons Section
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: _callVoice,
-                        icon: const Icon(Icons.call,
-                            color: Colors.white), // Icône pour le bouton "Call Voice"
-                        label: const Text('Call Voice'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: primaryColor, // Couleur du texte
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 25),
-                          shape: RoundedRectangleBorder(
-                            // Coins arrondis
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          elevation: 5, // Ombre portée pour donner du relief
-                          shadowColor:
-                              Colors.black.withOpacity(0.25), // Ombre légère
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: _showReservationDialog,
-                        icon: Icon(Icons.calendar_today,
-                            color: blackishColor), // Icône pour le bouton "Reserve"
-                        label: const Text('Reserve'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: blackishColor,
-                          backgroundColor: lightPurpleColor, // Couleur du texte
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 25),
-                          shape: RoundedRectangleBorder(
-                            // Coins arrondis
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Conditional display of reservation info
                 if (_reservedDate != null && _reservedTime != null)
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
                     child: Container(
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.lightBlueAccent.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(15),
@@ -345,25 +375,27 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                         children: [
                           customTextWidget(
                             text: "Your Reservation:",
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
+                          ),
+                          const SizedBox(height: 15),
+                          customTextWidget(
+                            text: "Doctor: ${widget.doctorModel.doctorName}",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87,
                           ),
                           const SizedBox(height: 10),
                           customTextWidget(
-                            text: "Doctor: ${widget.doctorModel.doctorName}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87,
-                          ),
-                          customTextWidget(
                             text: "Date: $_reservedDate",
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color: Colors.black87,
                           ),
+                          const SizedBox(height: 10),
                           customTextWidget(
                             text: "Time: $_reservedTime",
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color: Colors.black87,
                           ),
@@ -371,6 +403,46 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                       ),
                     ),
                   ),
+
+                // Call and Book Buttons
+                const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: _callVoice,
+                      icon: const Icon(Icons.call, color: Colors.white),
+                      label: const Text('Call Voice'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: primaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 25),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 5,
+                        shadowColor: Colors.black.withOpacity(0.25),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _showReservationDialog,
+                      icon: Icon(Icons.calendar_today, color: blackishColor),
+                      label: const Text('Book'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: blackishColor,
+                        backgroundColor: lightPurpleColor,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 25),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

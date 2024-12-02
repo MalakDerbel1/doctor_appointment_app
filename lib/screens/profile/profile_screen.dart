@@ -1,4 +1,5 @@
 import 'package:DocEase/screens/auth_screens/login_screen/login_screen.dart';
+import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -45,6 +46,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (savedData != null) {
       setState(() {
         patientInfo = json.decode(savedData);
+        // Ensure all fields are populated with a fallback value if they are missing
+        patientInfo.putIfAbsent('Gender', () => 'N/A');
+        patientInfo.putIfAbsent('Allergies', () => 'N/A');
+        patientInfo.putIfAbsent('Has Diabetes', () => 'N/A');
+        patientInfo.putIfAbsent('Has Heart Problems', () => 'N/A');
+        patientInfo.putIfAbsent('Height', () => 'N/A');
+        patientInfo.putIfAbsent('Weight', () => 'N/A');
+        patientInfo.putIfAbsent('Has Fever', () => 'N/A');
       });
     } else {
       setState(() {
@@ -282,38 +291,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Divider(),
                     ListTile(
                       title: const Text('Gender'),
-                      subtitle: Text(patientInfo['Gender']),
+                      subtitle: Text(patientInfo['Gender'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Height'),
-                      subtitle: Text('${patientInfo['Height']} cm'),
+                      subtitle: Text('${patientInfo['Height'] ?? 'N/A'} cm'),
                     ),
                     ListTile(
                       title: const Text('Weight'),
-                      subtitle: Text('${patientInfo['Weight']} kg'),
+                      subtitle: Text('${patientInfo['Weight'] ?? 'N/A'} kg'),
                     ),
                     ListTile(
                       title: const Text('Allergies'),
-                      subtitle: Text(patientInfo['Allergies']),
+                      subtitle: Text(patientInfo['Allergies'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Has Diabetes'),
-                      subtitle: Text(patientInfo['Has Diabetes']),
+                      subtitle: Text(patientInfo['Has Diabetes'] ?? 'N/A'),
                     ),
                     ListTile(
                       title: const Text('Has Heart Problems'),
-                      subtitle: Text(patientInfo['Has Heart Problems']),
+                      subtitle:
+                          Text(patientInfo['Has Heart Problems'] ?? 'N/A'),
                     ),
-                    // Button to trigger update dialog
+                    // Edit button
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _showUpdateDialog(context);
-                        },
-                        child: const Text('Update Information'),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(
+                                255, 115, 160, 223), // Button color
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 25.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(30.0), // Rounded shape
+                            ),
+                            elevation: 5, // Add elevation for raised look
+                            shadowColor:
+                                Colors.black.withOpacity(0.25), // Shadow color
+                          ),
+                          onPressed: () {
+                            _showUpdateDialog(context);
+                          },
+                          child: const Text(
+                            'Update your Informations',
+                            style: TextStyle(
+                              color: Colors.white, // Text color
+                              fontSize: 16.0, // Font size
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -322,10 +354,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Align(
-                alignment: Alignment.center, // Center the button
-                child: Container(
-                  width: 200, // Set the width to your desired size
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 200, // Set the button width
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(
+                          255, 115, 160, 223), // Button color
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 25.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30.0), // Rounded shape
+                      ),
+                      elevation: 5, // Add elevation for raised look
+                      shadowColor:
+                          Colors.black.withOpacity(0.25), // Shadow color
+                    ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
@@ -334,11 +379,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       );
                     },
-                    child: const Text('Logout'),
+                    child: const Text(
+                      'Log out',
+                      style: TextStyle(
+                        color: Colors.white, // Text color
+                        fontSize: 16.0, // Font size
+                      ),
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
