@@ -36,7 +36,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    // Initialize pages with passed data
+    // Initialisez les pages avec les données passées
     _pages = [
       HomeScreen(
         firstName: widget.firstName,
@@ -64,7 +64,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            // Drawer Header
+            // En-tête du drawer
             UserAccountsDrawerHeader(
               accountName: Text('${widget.firstName} ${widget.lastName}'),
               accountEmail: Text(widget.email),
@@ -80,7 +80,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 color: primaryColor,
               ),
             ),
-            // Drawer Items
+            // Éléments du drawer
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
@@ -163,7 +163,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ],
         selectedItemColor: primaryColor,
         unselectedItemColor: lighterColor,
-        type: BottomNavigationBarType.fixed, // Keeps all items visible
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
