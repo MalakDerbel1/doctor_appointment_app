@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  url_launcher: ^6.1.7
   provider: ^5.0.0
   flutter_datetime_picker: ^1.5.1
   shared_preferences: ^2.0.15
