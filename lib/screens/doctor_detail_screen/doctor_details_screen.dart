@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
   final DoctorModel doctorModel;
@@ -53,7 +54,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
     }
   }
 
-  // Function to show reservation dialog
   void _showReservationDialog() async {
     showDialog(
       context: context,
@@ -63,7 +63,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Champ Date
               GestureDetector(
                 onTap: () => _selectDate(context),
                 child: AbsorbPointer(
@@ -74,7 +73,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                   ),
                 ),
               ),
-              // Champ Heure
               GestureDetector(
                 onTap: () => _selectTime(context),
                 child: AbsorbPointer(
@@ -95,19 +93,34 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
               child: const Text('Close'),
             ),
             TextButton(
-              onPressed: () {
-                // Récupérer les informations de réservation
+              onPressed: () async {
                 final date = _dateController.text;
                 final time = _timeController.text;
+
+                if (date.isEmpty || time.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select both a date and a time."),
+                    ),
+                  );
+                  return; // Exit the method if fields are empty
+                }
 
                 setState(() {
                   _reservedDate = date;
                   _reservedTime = time;
                 });
 
-                Navigator.of(context).pop(); // Fermer la boîte de dialogue
+                // Save reservation data with the doctor's ID
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString(
+                    '${widget.doctorModel.doctorName}_reservedDate', date);
+                await prefs.setString(
+                    '${widget.doctorModel.doctorName}_reservedTime', time);
 
-                // Passer les informations à ClientAppointmentCalendar
+                Navigator.of(context).pop();
+
+                // Navigate to ClientAppointmentCalendar with reservation details
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -125,6 +138,22 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadReservation();
+  }
+
+  void _loadReservation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _reservedDate =
+          prefs.getString('${widget.doctorModel.doctorName}_reservedDate');
+      _reservedTime =
+          prefs.getString('${widget.doctorModel.doctorName}_reservedTime');
+    });
   }
 
   void _callVoice() {
@@ -331,7 +360,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                   color: lighterColor,
                   lineHeight: 1.5,
                 ),
-
                 if (_reservedDate != null && _reservedTime != null)
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -375,6 +403,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                       ),
                     ),
                   ),
+
                 // Call and Book Buttons
                 const SizedBox(height: 20),
 
