@@ -23,7 +23,7 @@ List<DoctorModel> doctorList = [
     experience: "7+ years",
     patients: 120,
     isFav: false,
-    doctorImage: ImageConstant.doctorImage2,
+    doctorImage: ImageConstant.doctor2,
   ),
   DoctorModel(
     doctorName: "Dr. Radhia Neifar",
@@ -37,7 +37,7 @@ List<DoctorModel> doctorList = [
     patients: 200,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage1, // Update with the actual path or constant
+        ImageConstant.doctor1, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -52,7 +52,7 @@ List<DoctorModel> doctorList = [
     patients: 180,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage2, // Update with the actual path or constant
+        ImageConstant.doctor5, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -67,7 +67,7 @@ List<DoctorModel> doctorList = [
     patients: 300,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor3, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -82,7 +82,7 @@ List<DoctorModel> doctorList = [
     patients: 300,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor9, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -97,7 +97,7 @@ List<DoctorModel> doctorList = [
     patients: 300,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor10, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -112,7 +112,7 @@ List<DoctorModel> doctorList = [
     patients: 300,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor6, // Update with the actual path or constant
   ),
 
   // Dermatologie
@@ -128,7 +128,7 @@ List<DoctorModel> doctorList = [
     patients: 250,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor8, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -143,7 +143,7 @@ List<DoctorModel> doctorList = [
     patients: 250,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor7, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -158,7 +158,7 @@ List<DoctorModel> doctorList = [
     patients: 250,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor11, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -173,7 +173,7 @@ List<DoctorModel> doctorList = [
     patients: 250,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor10, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -188,7 +188,7 @@ List<DoctorModel> doctorList = [
     patients: 250,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor11, // Update with the actual path or constant
   ),
 
   // Pediatrics
@@ -204,7 +204,7 @@ List<DoctorModel> doctorList = [
     patients: 110,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor12, // Update with the actual path or constant
   ),
   DoctorModel(
     doctorName: "Dr. Hichem Fekki",
@@ -218,7 +218,7 @@ List<DoctorModel> doctorList = [
     patients: 110,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor19 // Update with the actual path or constant
   ),
   DoctorModel(
     doctorName: "Dr. Adel Zouari",
@@ -232,7 +232,7 @@ List<DoctorModel> doctorList = [
     patients: 110,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage4, // Update with the actual path or constant
+        ImageConstant.doctor13, // Update with the actual path or constant
   ),
 
   // Dentist
@@ -248,7 +248,7 @@ List<DoctorModel> doctorList = [
     patients: 220,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor15, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -263,7 +263,7 @@ List<DoctorModel> doctorList = [
     patients: 220,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor14, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -278,7 +278,7 @@ List<DoctorModel> doctorList = [
     patients: 220,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor22, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -293,7 +293,7 @@ List<DoctorModel> doctorList = [
     patients: 220,
     isFav: true,
     doctorImage:
-        ImageConstant.doctorImage3, // Update with the actual path or constant
+        ImageConstant.doctor23, // Update with the actual path or constant
   ),
 
   // Ophthalmology
@@ -309,7 +309,7 @@ List<DoctorModel> doctorList = [
     patients: 150,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage5, // Update with the actual path or constant
+        ImageConstant.doctor21, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -324,7 +324,7 @@ List<DoctorModel> doctorList = [
     patients: 150,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage5, // Update with the actual path or constant
+        ImageConstant.doctor17, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -339,7 +339,7 @@ List<DoctorModel> doctorList = [
     patients: 150,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage5, // Update with the actual path or constant
+        ImageConstant.doctor18, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -354,7 +354,7 @@ List<DoctorModel> doctorList = [
     patients: 150,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage5, // Update with the actual path or constant
+        ImageConstant.doctor43, // Update with the actual path or constant
   ),
 
   DoctorModel(
@@ -369,7 +369,7 @@ List<DoctorModel> doctorList = [
     patients: 150,
     isFav: false,
     doctorImage:
-        ImageConstant.doctorImage5, // Update with the actual path or constant
+        ImageConstant.doctor16, // Update with the actual path or constant
   ),
 ];
 

@@ -7,8 +7,8 @@ class DoctorModel {
   final double rating;
   final String experience;
   final int patients;
-  late final bool isFav;
-  final String doctorImage; // Use String to represent the image constant
+  late bool isFav; // `late` pour initialisation différée
+  final String doctorImage;
 
   DoctorModel({
     required this.doctorName,
@@ -26,16 +26,16 @@ class DoctorModel {
   // Factory method to create a DoctorModel from JSON
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      doctorName: json['doctorName'],
-      speciality: json['speciality'],
-      clinicName: json['clinicName'],
-      totalReviews: json['totalReviews'],
-      about: json['about'],
-      rating: json['rating'].toDouble(),
-      experience: json['experience'],
-      patients: json['patients'],
-      isFav: json['isFav'],
-      doctorImage: json['doctorImage'],
+      doctorName: json['doctorName'] as String,
+      speciality: json['speciality'] as String,
+      clinicName: json['clinicName'] as String,
+      totalReviews: json['totalReviews'] as int,
+      about: json['about'] as String,
+      rating: (json['rating'] as num).toDouble(),
+      experience: json['experience'] as String,
+      patients: json['patients'] as int,
+      isFav: json['isFav'] as bool,
+      doctorImage: json['doctorImage'] as String,
     );
   }
 

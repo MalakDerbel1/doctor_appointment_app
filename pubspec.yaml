@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^6.1.7
   provider: ^5.0.0
   flutter_datetime_picker: ^1.5.1
   shared_preferences: ^2.0.15
@@ -25,17 +26,60 @@ dependencies:
   table_calendar: ^3.0.8
   font_awesome_flutter: ^10.8.0
 
+  
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
+flutter_icons:
+  android: true
+  ios: true
+  image_path:  "assets/icons/userIcone.png"
+  
 
   flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
   assets:
+  
+ 
     - assets/
+    - assets/doc1.jpg
+    - assets/doc2.jpg
+    - assets/doc3.jpg
+    - assets/doc5.jpg
+    - assets/doc6.jpg
+    - assets/doc7.jpg
+    - assets/doc8.jpg
+    - assets/doc9.png
+    - assets/doc10.jpg
+    - assets/doc11.jpg
+    - assets/doc20.jpg
+    - assets/DOC21.png
+    - assets/doc22.jpeg
+    - assets/doc23.jpg
+    - assets/doc24.jpg
+    - assets/doc25.jpg
+    - assets/doc26.jpg
+    - assets/doc27.jpg
+    - assets/doc29.png
+    - assets/doc32.jpg
+    - assets/doc33.jpg
+    - assets/doc34.jpg
+    - assets/doc35.png
+    - assets/doc288.jpg
+    - assets/icons/userIcone.png
+
+
+
+
+
+
+
     - assets/icons/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
