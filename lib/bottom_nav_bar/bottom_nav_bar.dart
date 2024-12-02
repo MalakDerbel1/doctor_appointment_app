@@ -7,6 +7,7 @@ import 'package:DocEase/screens/settings/settings_screen.dart';
 import 'package:DocEase/utils/themes/color_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class BottomNavBar extends StatefulWidget {
   final String firstName;
   final String lastName;
@@ -42,16 +43,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
         lastName: widget.lastName,
         email: widget.email,
       ),
-ClientAppointmentCalendar(
-    selectedDate: '2024-11-27',
-    selectedTime: '10:00 PM',
-    doctorName: 'Dr. John Doe', // Ajout du paramètre manquant
-  ),      ChatScreen(),
+      ChatScreen(),
       ProfileScreen(
-          firstName: widget.firstName, // Pass firstName
-          lastName: widget.lastName, // Pass lastName
-          email: widget.email, // Pass email
-          patientInfo: {}),
+        firstName: widget.firstName,
+        lastName: widget.lastName,
+        email: widget.email,
+        patientInfo: {}, // Passe une map vide pour éviter les erreurs
+      ),
     ];
   }
 
@@ -68,7 +66,7 @@ ClientAppointmentCalendar(
           children: [
             // Drawer Header
             UserAccountsDrawerHeader(
-              accountName: Text(widget.firstName + " " + widget.lastName),
+              accountName: Text('${widget.firstName} ${widget.lastName}'),
               accountEmail: Text(widget.email),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
@@ -90,17 +88,7 @@ ClientAppointmentCalendar(
                 setState(() {
                   _selectedIndex = 0;
                 });
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.calendar_today),
-              title: const Text('Appointments'),
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 1;
-                });
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
               },
             ),
             ListTile(
@@ -108,7 +96,7 @@ ClientAppointmentCalendar(
               title: const Text('Chat'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 2;
+                  _selectedIndex = 1;
                 });
                 Navigator.pop(context);
               },
@@ -118,12 +106,11 @@ ClientAppointmentCalendar(
               title: const Text('Profile'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 3; // Change the selected index for profile
+                  _selectedIndex = 2;
                 });
-                Navigator.pop(context); // Close the drawer
+                Navigator.pop(context);
               },
             ),
-
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
@@ -141,18 +128,18 @@ ClientAppointmentCalendar(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-                // Navigate to Login Screen
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OnboardingScreen(),
-                    ));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingScreen(),
+                  ),
+                );
               },
             ),
           ],
         ),
       ),
-      body: _pages[_selectedIndex], // Display the selected screen
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -160,14 +147,10 @@ ClientAppointmentCalendar(
             _selectedIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.house),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.calendar),
-            label: 'Appointments',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.message),
